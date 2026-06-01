@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#f1ead9">
+<title>ST0532 — Complete Revision Flashcards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f1ead9; --paper-2:#e8dec7; --ink:#1f1812; --ink-soft:#4a3d31;
+  --ink-mute:#8a7864; --accent:#b8451e; --accent-soft:#d9692f; --good:#3f6b3a;
+  --bad:#a23a2e; --rule:#c9bba0; --card-front:#fbf6e9; --card-back:#1f1812;
+  --shadow: 0 1px 0 rgba(31,24,18,.08), 0 12px 28px -12px rgba(31,24,18,.25), 0 3px 8px -3px rgba(31,24,18,.15);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{
+  background:var(--paper); color:var(--ink);
+  font-family:'Geist', system-ui, sans-serif; font-weight:400;
+  min-height:100vh; min-height:100dvh; -webkit-font-smoothing:antialiased;
+}
+body{
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(184,69,30,.06), transparent 50%),
+    radial-gradient(ellipse at 100% 100%, rgba(31,24,18,.05), transparent 50%),
+    var(--paper);
+  background-attachment:fixed;
+  padding: 28px 22px max(28px, env(safe-area-inset-bottom)); position:relative;
+}
+body::before{
+  content:""; position:fixed; inset:0; pointer-events:none; opacity:.4;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.12 0 0 0 0 0.10 0 0 0 0 0.07 0 0 0 0.10 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode:multiply; z-index:0;
+}
+.wrap{ max-width: 940px; margin: 0 auto; position:relative; z-index:1;}
+
+/* HEADER */
+header{
+  display:flex; align-items:flex-end; justify-content:space-between;
+  border-bottom:1px solid var(--rule); padding-bottom:14px; margin-bottom:22px;
+  gap:20px; flex-wrap:wrap;
+}
+.brand{ display:flex; flex-direction:column; gap:4px;}
+.brand .eyebrow{
+  font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--accent); font-weight:500;
+}
+.brand h1{
+  font-family:'Fraunces', serif; font-weight:500; font-size: clamp(26px, 7vw, 42px);
+  letter-spacing:-.02em; line-height:1; font-variation-settings:"opsz" 144, "SOFT" 50;
+}
+.brand h1 em{ font-style:italic; font-weight:400; color:var(--accent);}
+.meta{
+  font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--ink-mute);
+  text-align:right; letter-spacing:.04em; line-height:1.6;
+}
+
+/* TABS — horizontal scroll on mobile */
+.tabs{
+  display:flex; gap:6px; margin-bottom:20px; padding:6px;
+  background:rgba(31,24,18,.04); border:1px solid var(--rule); border-radius:14px;
+  overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch;
+}
+.tabs::-webkit-scrollbar{ display:none;}
+.tab{
+  flex:1 0 auto; padding:9px 14px; background:transparent; border:none;
+  border-radius:9px; cursor:pointer; font-family:'Geist', sans-serif; font-weight:500;
+  font-size:13px; color:var(--ink-soft); letter-spacing:.01em; text-align:center;
+  transition: all .2s ease; white-space:nowrap; display:flex; flex-direction:column;
+  align-items:center; gap:2px;
+}
+.tab:active{ transform: scale(.96);}
+.tab.active{ background:var(--ink); color:var(--paper); box-shadow: 0 4px 12px -4px rgba(31,24,18,.4);}
+.tab .num{ font-family:'JetBrains Mono', monospace; font-size:9.5px; opacity:.7; letter-spacing:.04em;}
+.tab.active .num{ color: var(--accent-soft); opacity:1;}
+
+/* TOOLBAR */
+.toolbar{
+  display:flex; align-items:center; justify-content:space-between; gap:14px;
+  margin-bottom:14px; flex-wrap:wrap;
+}
+.progress-wrap{ flex:1; min-width:180px; display:flex; flex-direction:column; gap:6px;}
+.progress-text{
+  font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--ink-mute);
+  letter-spacing:.05em; display:flex; justify-content:space-between;
+}
+.progress-text .stats span{ margin-left:12px;}
+.progress-text .good{ color: var(--good); font-weight:500;}
+.progress-text .bad{ color: var(--bad); font-weight:500;}
+.bar{ height:4px; background:rgba(31,24,18,.1); border-radius:99px; overflow:hidden; display:flex;}
+.bar-good, .bar-bad{ height:100%; transition: width .35s cubic-bezier(.4,0,.2,1);}
+.bar-good{ background: var(--good);}
+.bar-bad{ background: var(--bad);}
+.tool-btns{ display:flex; gap:8px;}
+.icon-btn{
+  width:38px; height:38px; border:1px solid var(--rule); background:var(--paper-2);
+  border-radius:10px; cursor:pointer; display:grid; place-items:center; color:var(--ink-soft);
+  transition: all .15s ease;
+}
+.icon-btn:active{ background:var(--ink); color:var(--paper); transform: scale(.94);}
+.icon-btn svg{ width:16px; height:16px;}
+
+/* CARD */
+.stage{ perspective: 2200px; margin-bottom:20px; touch-action: pan-y;}
+.card{
+  position:relative; width:100%; min-height: 60vh; cursor:pointer;
+  transform-style: preserve-3d; transition: transform .55s cubic-bezier(.5,.1,.3,1); user-select:none;
+}
+@media(min-width:641px){ .card{ min-height:420px;} }
+.card.flipped{ transform: rotateY(180deg);}
+.card.swipe-l{ animation: swl .25s ease forwards;}
+.card.swipe-r{ animation: swr .25s ease forwards;}
+@keyframes swl{ to{ transform: translateX(-120%) rotate(-6deg); opacity:0;} }
+@keyframes swr{ to{ transform: translateX(120%) rotate(6deg); opacity:0;} }
+
+.face{
+  position:absolute; inset:0; border-radius:18px; padding: 30px 26px;
+  backface-visibility:hidden; -webkit-backface-visibility:hidden; display:flex;
+  flex-direction:column; box-shadow: var(--shadow); overflow:hidden;
+}
+@media(min-width:641px){ .face{ padding: 36px 42px;} }
+.face.front{ background: var(--card-front); border:1px solid var(--rule);}
+.face.front::before{
+  content:""; position:absolute; top:0; left:0; right:0; height:1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.8), transparent);
+}
+.face.back{ background: var(--card-back); color: var(--paper); transform: rotateY(180deg); border:1px solid var(--ink);}
+.face .label{
+  font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:.18em;
+  text-transform:uppercase; margin-bottom:18px; display:flex; justify-content:space-between;
+  align-items:center; flex-shrink:0;
+}
+.face.front .label{ color: var(--accent);}
+.face.back .label{ color: var(--accent-soft);}
+.face .label .chapter-tag{ color: var(--ink-mute); font-weight:400; letter-spacing:.06em; font-size:10px;}
+.face.back .label .chapter-tag{ color: rgba(241,234,217,.45);}
+
+.face .content{
+  flex:1; display:flex; flex-direction:column; justify-content:center;
+  overflow-y:auto; overflow-x:hidden; width:100%; -webkit-overflow-scrolling:touch;
+  padding-right:10px; scrollbar-gutter:stable;
+}
+.content::-webkit-scrollbar{ width:6px;}
+.content::-webkit-scrollbar-track{ background:transparent; margin:2px 0;}
+.content::-webkit-scrollbar-thumb{ background:rgba(31,24,18,.2); border-radius:3px;}
+.face.back .content::-webkit-scrollbar-thumb{ background:rgba(255,255,255,.22);}
+
+.face .content-inner{
+  width:100%; font-family:'Fraunces', serif; font-weight:400;
+  font-size: clamp(19px, 5vw, 26px); line-height:1.35; letter-spacing:-.01em;
+  font-variation-settings:"opsz" 72, "SOFT" 50;
+}
+.face.front .content-inner code{
+  font-family:'JetBrains Mono', monospace; font-size:.8em; background:rgba(31,24,18,.06);
+  padding:1px 5px; border-radius:4px; color:var(--accent); word-break:break-word;
+}
+.face.front .content-inner em{ font-style:italic; color:var(--accent);}
+
+.face.back .content-inner{
+  font-family:'Geist', sans-serif; font-weight:400; font-size: clamp(15px, 4vw, 18px);
+  line-height:1.55; letter-spacing:-.005em; color: #ebe1ca;
+}
+.face.back .content-inner strong{ color:#fff; font-weight:600;}
+.face.back .content-inner code{
+  font-family:'JetBrains Mono', monospace; background:rgba(255,255,255,.08);
+  padding: 1px 6px; border-radius:4px; font-size:.85em; color:var(--accent-soft); word-break:break-word;
+}
+.face.back .content-inner em{ color: var(--accent-soft); font-style:normal; font-weight:500;}
+
+.face.back .content-inner table{
+  width:100%; border-collapse:collapse; margin-top:8px;
+  font-family:'Geist',sans-serif; font-size:12px; line-height:1.4;
+}
+.face.back .content-inner th{
+  text-align:left; color:var(--accent-soft); font-weight:600; padding:5px 7px;
+  border-bottom:1px solid rgba(255,255,255,.18);
+}
+.face.back .content-inner td{
+  padding:5px 7px; border-bottom:1px solid rgba(255,255,255,.07);
+  color:#ddd2bb; vertical-align:top;
+}
+.face.back .content-inner td code{ font-size:.9em;}
+
+.flip-hint{
+  font-family:'JetBrains Mono', monospace; font-size:9.5px; letter-spacing:.13em;
+  text-transform:uppercase; color:var(--ink-mute); margin-top:12px; text-align:center;
+  opacity:.65; flex-shrink:0;
+}
+.face.back .flip-hint{ color: rgba(241,234,217,.4);}
+
+/* CONTROLS */
+.controls{ display:grid; grid-template-columns: 1fr 2fr 1fr; gap:10px; align-items:center;}
+.nav-btn{
+  padding: 15px 14px; border-radius:12px; border:1px solid var(--rule); background:var(--paper-2);
+  font-family:'Geist', sans-serif; font-weight:500; font-size:14px; color:var(--ink);
+  cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition: all .15s ease;
+}
+.nav-btn:active:not(:disabled){ background:var(--ink); color:var(--paper); transform: scale(.97);}
+.nav-btn:disabled{ opacity:.3; cursor:not-allowed;}
+.nav-btn .txt{ display:inline;}
+.grade-btns{ display:flex; gap:8px; justify-content:center;}
+.grade-btn{
+  flex:1; padding: 15px 8px; border-radius:12px; border:1px solid; font-family:'Geist', sans-serif;
+  font-weight:600; font-size:13.5px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  gap:6px; transition: all .15s ease; letter-spacing:.01em;
+}
+.grade-btn.again{ border-color: rgba(162,58,46,.35); color: var(--bad); background: rgba(162,58,46,.06);}
+.grade-btn.again:active{ background: var(--bad); color:#fff; transform: scale(.97);}
+.grade-btn.got{ border-color: rgba(63,107,58,.35); color: var(--good); background: rgba(63,107,58,.06);}
+.grade-btn.got:active{ background: var(--good); color:#fff; transform: scale(.97);}
+.grade-btn:disabled{ opacity:.4; cursor:not-allowed;}
+
+.shortcuts{
+  margin-top:24px; padding-top:16px; border-top:1px dashed var(--rule);
+  font-family:'JetBrains Mono', monospace; font-size:10px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--ink-mute); display:flex; gap:20px;
+  justify-content:center; flex-wrap:wrap;
+}
+.shortcuts kbd{
+  display:inline-block; padding: 2px 7px; background:var(--paper-2); border:1px solid var(--rule);
+  border-bottom-width:2px; border-radius:5px; font-family:'JetBrains Mono', monospace; font-size:10px;
+  color:var(--ink); margin-right:4px;
+}
+
+/* DONE */
+.done{ text-align:center; padding: 40px 16px; font-family:'Fraunces', serif;}
+.done h2{ font-size: clamp(36px,9vw,46px); font-weight:400; font-style:italic; color:var(--accent); margin-bottom:8px; font-variation-settings:"opsz" 144;}
+.done p{ font-family:'Geist', sans-serif; color:var(--ink-soft); font-size:15px; margin-bottom:20px;}
+.done .stats-big{ display:flex; justify-content:center; gap:32px; margin: 24px 0; flex-wrap:wrap;}
+.done .stat{ display:flex; flex-direction:column;}
+.done .stat .n{ font-size:40px; font-weight:500; font-family:'Fraunces', serif;}
+.done .stat .l{ font-family:'JetBrains Mono', monospace; font-size:10px; letter-spacing:.15em; text-transform:uppercase; color:var(--ink-mute); margin-top:4px;}
+.done .stat.g .n{ color: var(--good);}
+.done .stat.b .n{ color: var(--bad);}
+.done .done-btns{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap;}
+
+@media (max-width: 420px){
+  .shortcuts{ display:none;}
+  .nav-btn .txt{ display:none;}
+  .nav-btn{ padding:15px 10px;}
+  .controls{ grid-template-columns: auto 1fr auto;}
+}
+
+/* MODE TOGGLE */
+.mode-toggle{
+  display:inline-flex; padding:4px; background:rgba(31,24,18,.05);
+  border:1px solid var(--rule); border-radius:11px; gap:3px;
+}
+.mode-toggle button{
+  border:none; background:transparent; cursor:pointer; padding:7px 14px;
+  border-radius:8px; font-family:'Geist',sans-serif; font-weight:600; font-size:12.5px;
+  color:var(--ink-soft); letter-spacing:.01em; transition:all .15s ease; display:flex; align-items:center; gap:6px;
+}
+.mode-toggle button.active{ background:var(--accent); color:#fff; box-shadow:0 2px 8px -2px rgba(184,69,30,.5);}
+.mode-toggle button:active{ transform:scale(.95);}
+.mode-toggle svg{ width:14px; height:14px;}
+
+/* TYPING UI on front */
+.type-area{ display:flex; flex-direction:column; gap:10px; margin-top:14px; flex-shrink:0;}
+.type-area textarea{
+  width:100%; min-height:96px; resize:vertical; padding:13px 15px;
+  border:1.5px solid var(--rule); border-radius:12px; background:rgba(255,255,255,.5);
+  font-family:'Geist',sans-serif; font-size:15px; line-height:1.5; color:var(--ink);
+  transition:border-color .15s ease; -webkit-appearance:none;
+}
+.type-area textarea:focus{ outline:none; border-color:var(--accent);}
+.type-area textarea::placeholder{ color:var(--ink-mute); opacity:.7;}
+.type-submit{
+  align-self:flex-start; padding:11px 20px; border:none; border-radius:11px;
+  background:var(--ink); color:var(--paper); font-family:'Geist',sans-serif;
+  font-weight:600; font-size:13.5px; cursor:pointer; transition:all .15s ease;
+  display:flex; align-items:center; gap:7px;
+}
+.type-submit:active{ transform:scale(.97); background:var(--accent);}
+.type-hint{
+  font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.08em;
+  color:var(--ink-mute); opacity:.7;
+}
+
+/* Reveal panel on the back: shows YOUR answer above the model answer */
+.your-answer{
+  background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
+  border-radius:12px; padding:13px 15px; margin-bottom:16px; flex-shrink:0;
+}
+.your-answer .ya-label{
+  font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.15em;
+  text-transform:uppercase; color:rgba(241,234,217,.5); margin-bottom:6px;
+  display:flex; align-items:center; gap:6px;
+}
+.your-answer .ya-text{
+  font-family:'Geist',sans-serif; font-size:14.5px; line-height:1.5; color:#f4ecd9;
+  white-space:pre-wrap; word-break:break-word;
+}
+.your-answer .ya-text.empty{ color:rgba(241,234,217,.4); font-style:italic;}
+.model-label{
+  font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.15em;
+  text-transform:uppercase; color:var(--accent-soft); margin-bottom:8px; display:flex; align-items:center; gap:6px;
+}
+
+/* when in type mode, front content shrinks so textarea fits */
+.card.type-mode .face.front .content{ justify-content:flex-start; flex:0 1 auto; max-height:40%;}
+.card.type-mode .face.front{ justify-content:flex-start;}
+.card.type-mode .face.front .content-inner{ font-size:clamp(18px,4.6vw,24px);}
+/* back of a type-mode card: align to top so verdict/your-answer never get clipped */
+.card.type-mode .face.back .content{ justify-content:flex-start;}
+
+/* GRADING VERDICT banner on the back */
+.verdict{
+  display:flex; align-items:center; gap:11px; padding:13px 15px; border-radius:12px;
+  margin-bottom:16px; flex-shrink:0; border:1px solid;
+}
+.verdict .v-icon{ width:30px; height:30px; border-radius:50%; display:grid; place-items:center; flex-shrink:0;}
+.verdict .v-icon svg{ width:17px; height:17px; stroke-width:2.5;}
+.verdict .v-body{ display:flex; flex-direction:column; gap:2px; min-width:0;}
+.verdict .v-title{ font-family:'Geist',sans-serif; font-weight:700; font-size:15px; letter-spacing:-.01em;}
+.verdict .v-sub{ font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:.04em; opacity:.85; line-height:1.45;}
+
+.verdict.correct{ background:rgba(63,107,58,.14); border-color:rgba(99,160,90,.4);}
+.verdict.correct .v-icon{ background:var(--good); color:#fff;}
+.verdict.correct .v-title{ color:#9fd093;}
+.verdict.correct .v-sub{ color:#9fd093;}
+
+.verdict.partial{ background:rgba(217,150,47,.13); border-color:rgba(217,150,47,.4);}
+.verdict.partial .v-icon{ background:#c98a2e; color:#fff;}
+.verdict.partial .v-title{ color:#e8b765;}
+.verdict.partial .v-sub{ color:#e8b765;}
+
+.verdict.low{ background:rgba(162,58,46,.14); border-color:rgba(196,90,78,.4);}
+.verdict.low .v-icon{ background:var(--bad); color:#fff;}
+.verdict.low .v-title{ color:#e09a8e;}
+.verdict.low .v-sub{ color:#e09a8e;}
+
+.verdict.blank{ background:rgba(138,120,100,.13); border-color:rgba(138,120,100,.4);}
+.verdict.blank .v-icon{ background:var(--ink-mute); color:#fff;}
+.verdict.blank .v-title{ color:#c3b39d;}
+.verdict.blank .v-sub{ color:#c3b39d;}
+
+/* keyword hit/miss chips */
+.keywords{ margin-top:4px; margin-bottom:16px; flex-shrink:0;}
+.kw-head{
+  font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.13em; text-transform:uppercase;
+  color:rgba(241,234,217,.45); margin-bottom:7px;
+}
+.kw-list{ display:flex; flex-wrap:wrap; gap:6px;}
+.kw{
+  font-family:'Geist',sans-serif; font-size:12px; font-weight:500; padding:3px 9px; border-radius:7px;
+  display:inline-flex; align-items:center; gap:5px; line-height:1.3;
+}
+.kw svg{ width:11px; height:11px; stroke-width:3;}
+.kw.hit{ background:rgba(63,107,58,.22); color:#a8d69c;}
+.kw.miss{ background:rgba(162,58,46,.18); color:#e3a99e;}
+
+@keyframes fade{ from{ opacity:0; transform: translateY(6px);} to{ opacity:1; transform: translateY(0);}}
+.card.changing .face{ animation: fade .3s ease;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="brand">
+    <span class="eyebrow">ST0532 · Computer Organisation</span>
+    <h1>Complete <em>Flashcards</em></h1>
+  </div>
+  <div class="meta" id="meta">Loading…</div>
+</header>
+
+<div class="tabs" id="tabs"></div>
+
+<div style="display:flex;justify-content:center;margin-bottom:16px;">
+  <div class="mode-toggle" id="modeToggle">
+    <button data-mode="flip" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M21 17v-6h-6"/><path d="M3 13a9 9 0 0 0 15 5.5M21 11A9 9 0 0 0 6 5.5"/></svg>Flip</button>
+    <button data-mode="type"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M6 12h.01M18 12h.01M7 16h10"/></svg>Type answer</button>
+  </div>
+</div>
+
+<div class="toolbar">
+  <div class="progress-wrap">
+    <div class="progress-text">
+      <span id="cardCount">Card 1</span>
+      <span class="stats"><span class="good" id="goodCount">✓ 0</span><span class="bad" id="badCount">↻ 0</span></span>
+    </div>
+    <div class="bar"><div class="bar-good" id="barGood" style="width:0%"></div><div class="bar-bad" id="barBad" style="width:0%"></div></div>
+  </div>
+  <div class="tool-btns">
+    <button class="icon-btn" id="shuffleBtn" title="Shuffle (S)" aria-label="Shuffle">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+    </button>
+    <button class="icon-btn" id="resetBtn" title="Reset (R)" aria-label="Reset">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+    </button>
+  </div>
+</div>
+
+<div class="stage" id="stage">
+  <div class="card" id="card">
+    <div class="face front">
+      <div class="label"><span>Question</span><span class="chapter-tag" id="chapTagFront"></span></div>
+      <div class="content"><div class="content-inner" id="qText"></div></div>
+      <div class="flip-hint">Tap to flip · swipe to navigate</div>
+    </div>
+    <div class="face back">
+      <div class="label"><span>Answer</span><span class="chapter-tag" id="chapTagBack"></span></div>
+      <div class="content"><div class="content-inner" id="aText"></div></div>
+      <div class="flip-hint">Grade yourself below</div>
+    </div>
+  </div>
+</div>
+
+<div class="controls">
+  <button class="nav-btn" id="prevBtn" aria-label="Previous"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg><span class="txt">Prev</span></button>
+  <div class="grade-btns">
+    <button class="grade-btn again" id="againBtn" disabled><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>Review again</button>
+    <button class="grade-btn got" id="gotBtn" disabled><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Got it</button>
+  </div>
+  <button class="nav-btn" id="nextBtn" aria-label="Next"><span class="txt">Next</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+</div>
+
+<div class="shortcuts">
+  <span><kbd>Space</kbd> flip</span>
+  <span><kbd>←</kbd> <kbd>→</kbd> navigate</span>
+  <span><kbd>1</kbd> again</span>
+  <span><kbd>2</kbd> got it</span>
+  <span><kbd>S</kbd> shuffle</span>
+  <span><kbd>R</kbd> reset</span>
+</div>
+
+</div>
+
+<script>
+const DECKS = [
+{
+  short:"1A", tab:"Ch 1A", title:"Basic Structure",
+  cards:[
+    {q:`What three core functions does <em>every</em> computer perform?`,
+     a:`<strong>Input → Processing → Output</strong> (with storage).<br><br>1. <strong>Input</strong> — receive data from the outside world.<br>2. <strong>Processing</strong> — transform that data using the CPU.<br>3. <strong>Output / Storage</strong> — display results or save them for later.`},
+    {q:`A computer is any device that does what — and what are networks built from?`,
+     a:`A computer is any device that performs <strong>input → processing → output</strong>.<br><br>Modern networks are built out of <strong>many of these devices working together</strong>.`},
+    {q:`Which network devices are really "computers in disguise"?`,
+     a:`<strong>Workstations</strong> — PCs/laptops running Windows, Linux, UNIX, macOS.<br><strong>Servers</strong> — machines dedicated to providing services to other devices.<br><strong>Network devices</strong> — routers, switches, even smart sensors (all contain a processor and run software).`},
+    {q:`The rule for "what counts as a computer"?`,
+     a:`If it has a <strong>CPU and runs instructions, it's a computer</strong> — even if it doesn't have a keyboard or screen.`},
+    {q:`Supercomputer — typical use & example?`,
+     a:`Heavy <strong>scientific computation</strong>.<br><br>Example: weather modelling clusters.`},
+    {q:`Mainframe — typical use & example?`,
+     a:`Large-scale <strong>business transactions</strong>.<br><br>Example: bank batch processing.`},
+    {q:`Server (computer type) — typical use & example?`,
+     a:`<strong>Sharing resources / services</strong> on a network.<br><br>Example: web server, file server.`},
+    {q:`Personal Computer (PC) — typical use & example?`,
+     a:`<strong>Everyday user work</strong>.<br><br>Example: desktop, laptop.`},
+    {q:`Embedded computer — typical use & example?`,
+     a:`<strong>Specialised, hidden</strong>.<br><br>Example: smartwatch, washing machine controller.`},
+    {q:`What are the five categories of computer hardware?`,
+     a:`<strong>Input</strong> — keyboard, mouse, mic, webcam, scanner.<br><strong>Output</strong> — monitor, printer, speakers.<br><strong>Input/Output</strong> — touchscreens, network cards, USB drives (data both ways).<br><strong>Processing</strong> — the CPU.<br><strong>Storage</strong> — RAM (short-term) + HDD/SSD (long-term).`},
+    {q:`Give examples of Input components.`,
+     a:`Keyboard, mouse, microphone, webcam, scanner.`},
+    {q:`Give examples of Output components.`,
+     a:`Monitor, printer, speakers.`},
+    {q:`Give examples of Input/Output (both-way) components.`,
+     a:`<strong>Touchscreens, network cards, USB drives</strong> — data flows both ways.`},
+    {q:`What is the <em>motherboard</em>?`,
+     a:`The main circuit board that <strong>connects every component</strong> and lets them communicate.`},
+    {q:`What is mounted on / attached to the motherboard?`,
+     a:`<strong>CPU socket</strong> — where the processor sits.<br><strong>RAM slots</strong> — for memory modules.<br><strong>Chipset</strong> — manages data flow between CPU, memory, peripherals.<br><strong>Expansion slots</strong> — graphics cards, network cards, etc.<br><strong>I/O ports</strong> — USB, HDMI, Ethernet, audio jacks.`},
+    {q:`What does the <em>chipset</em> do?`,
+     a:`Manages <strong>data flow between the CPU, memory, and peripherals</strong>.`},
+    {q:`Volatile vs non-volatile memory?`,
+     a:`<strong>Short-term (volatile)</strong> loses its contents when power is cut.<br><br><strong>Long-term (non-volatile)</strong> keeps its contents when power is off.`},
+    {q:`Describe RAM (four facts).`,
+     a:`Random Access Memory.<br>• <strong>Volatile</strong> — empties when power is off.<br>• The computer's <strong>working storage</strong> — programs run from here.<br>• More RAM ⇒ better multitasking / performance.<br>• If RAM runs out, the OS uses the disk as <strong>virtual memory</strong> (slower).`},
+    {q:`What is <em>virtual memory</em>?`,
+     a:`When RAM runs out, the OS uses the <strong>disk as overflow memory</strong> — slower than real RAM.`},
+    {q:`What do HDD and SSD store?`,
+     a:`<strong>Non-volatile long-term storage</strong> for the operating system, applications, and your files.`},
+    {q:`HDD vs SSD — full comparison.`,
+     a:`<table>
+     <tr><th>Feature</th><th>HDD</th><th>SSD</th></tr>
+     <tr><td>Technology</td><td>Spinning magnetic platters + R/W head</td><td>Flash chips, no moving parts</td></tr>
+     <tr><td>Speed</td><td>Slower (mechanical)</td><td>Much faster (electronic)</td></tr>
+     <tr><td>Durability</td><td>Sensitive to shock</td><td>More shock-resistant</td></tr>
+     <tr><td>Noise</td><td>Audible spinning</td><td>Silent</td></tr>
+     <tr><td>Cost/GB</td><td>Cheaper</td><td>More expensive</td></tr>
+     <tr><td>Typical use</td><td>Bulk storage</td><td>OS + apps for speed</td></tr>
+     </table>`},
+    {q:`Why do modern laptops pair a small SSD with a large HDD?`,
+     a:`<strong>SSD</strong> holds the OS and apps — for speed.<br><strong>HDD</strong> holds media files — for cheap capacity.`},
+    {q:`What is a <em>bus</em>?`,
+     a:`A collection of <strong>wires that carries signals</strong> between components.`},
+    {q:`Name the three motherboard buses — what each carries & its direction.`,
+     a:`<strong>Address bus</strong> — the memory/IO location the CPU wants — CPU → Memory/IO.<br><strong>Control bus</strong> — control signals (read, write, timing) — both ways.<br><strong>Data bus</strong> — the actual data transferred — both ways.`},
+    {q:`Mnemonic for the three buses?`,
+     a:`<strong>ACD</strong> — Address (where), Control (what to do), Data (the actual contents).`},
+    {q:`Steps when the CPU reads from RAM (which bus does what)?`,
+     a:`1. The <strong>address bus</strong> tells RAM where to look.<br>2. The <strong>control bus</strong> tells RAM read or write.<br>3. The <strong>data bus</strong> carries the value back to the CPU.`},
+    {q:`Polling — how it works, pros & cons?`,
+     a:`CPU repeatedly asks each device <em>"do you need attention?"</em><br><br><strong>Pro:</strong> simple, predictable.<br><strong>Con:</strong> wastes CPU cycles checking idle devices.`},
+    {q:`Interrupt — how it works, pros & cons?`,
+     a:`The device <strong>signals the CPU</strong> when it needs attention.<br><br><strong>Pro:</strong> efficient — CPU only stops when needed.<br><strong>Con:</strong> more complex to implement.`},
+    {q:`Analogy for polling vs interrupts?`,
+     a:`<strong>Polling</strong> = a teacher walking around checking on every student every minute.<br><br><strong>Interrupts</strong> = students raising their hands only when they need help.`},
+    {q:`Which I/O method do modern OSes use, and when is polling used?`,
+     a:`Modern desktop & server OSes use <strong>interrupts almost exclusively</strong>.<br><br>Polling is mostly reserved for tiny <strong>embedded systems</strong> where simplicity matters more than CPU efficiency.`},
+    {q:`List the 6 steps of the boot procedure in order.`,
+     a:`1. Power applied to the motherboard.<br>2. CPU starts executing instructions.<br>3. BIOS startup routines run, including <strong>POST</strong>.<br>4. Boot devices searched (in BIOS order) for a bootable OS.<br>5. OS loaded into RAM from disk.<br>6. OS services start — you reach the login screen.`},
+    {q:`What happens during boot if POST detects a hardware failure?`,
+     a:`The boot sequence <strong>stops there</strong> — usually with beeps or an error code. The OS never loads.`},
+    {q:`What does <code>POST</code> stand for and do?`,
+     a:`<strong>Power-On Self-Check</strong> — a built-in diagnostic that runs every time the computer powers up, to verify hardware is working.`},
+    {q:`Two ways a computer connects to a network?`,
+     a:`<strong>Wired NIC</strong> — Network Interface Card with an RJ-45 Ethernet port.<br><strong>Wireless NIC</strong> — uses radio (Wi-Fi) to connect to an access point.`},
+    {q:`What role do both wired and wireless NICs perform?`,
+     a:`Converting the computer's data into <strong>signals the network can carry, and vice versa</strong>.`}
+  ]
+},
+{
+  short:"1B", tab:"Ch 1B", title:"Fetch & Execute",
+  cards:[
+    {q:`The one thing the CPU does endlessly?`,
+     a:`<strong>Fetch → decode → execute</strong> the next instruction. Everything else is built on top of that loop.`},
+    {q:`How is all data stored inside a computer?`,
+     a:`As <strong>bits</strong> — binary digits, either <code>0</code> or <code>1</code>.`},
+    {q:`How is 1 vs 0 represented in electronic circuits?`,
+     a:`<strong>1</strong> = voltage present (e.g. 5 V).<br><strong>0</strong> = no voltage.`},
+    {q:`How is 1 vs 0 represented in fibre-optic cable?`,
+     a:`<strong>1</strong> = light present.<br><strong>0</strong> = no light.`},
+    {q:`Define <em>bit</em> and <em>byte</em>.`,
+     a:`<strong>Bit</strong> — smallest unit of data, 0 or 1.<br><br><strong>Byte</strong> — 8 bits grouped together; can represent <strong>256 values</strong> (0 to 255).`},
+    {q:`List the place-value weights of an 8-bit byte (positions 7→0).`,
+     a:`<code>128  64  32  16  8  4  2  1</code>`},
+    {q:`How do you convert a byte to decimal?`,
+     a:`Add the <strong>weights</strong> for every position that contains a <code>1</code>.`},
+    {q:`Convert <code>0100 0001</code> to decimal.`,
+     a:`Positions 6 and 0 are set: <strong>64 + 1 = 65</strong>.<br><br>(65 = the character <code>A</code> in ASCII.)`},
+    {q:`What is <em>ASCII</em>?`,
+     a:`<strong>American Standard Code for Information Interchange</strong> — maps numbers to characters so computers can store text.`},
+    {q:`ASCII values for <code>A</code>, <code>a</code> and <code>0</code>?`,
+     a:`<code>A</code> = <strong>65</strong><br><code>a</code> = <strong>97</strong><br><code>0</code> = <strong>48</strong>`},
+    {q:`Trace pressing 'A' on the keyboard, end to end.`,
+     a:`Press A → keyboard sends <code>0100 0001</code> → CPU/memory store the value <strong>65</strong> → printer receives <code>0100 0001</code> → printer prints <strong>A</strong>.`},
+    {q:`How do uppercase and lowercase ASCII letters relate?`,
+     a:`They differ by exactly <strong>32</strong> (A=65, a=97; B=66, b=98).<br><br>Flipping <strong>bit 5</strong> (value 32) converts between them.`},
+    {q:`Name the five functional units of a computer + an example of each.`,
+     a:`<strong>Input</strong> — keyboards, mice, sensors.<br><strong>Memory</strong> — RAM and cache (fast, volatile).<br><strong>Processor</strong> — the CPU (the worker).<br><strong>Output</strong> — monitors, printers.<br><strong>Storage</strong> — HDD/SSD (slower, persistent).`},
+    {q:`What does the memory unit consist of, and what's its nature?`,
+     a:`<strong>RAM and cache</strong> — fast, volatile.`},
+    {q:`What is the nature of the storage unit?`,
+     a:`<strong>HDD/SSD</strong> — slower, persistent.`},
+    {q:`Name the three main parts inside the CPU and their roles.`,
+     a:`<strong>ALU</strong> (Arithmetic Logic Unit) — maths (+, −, ×, ÷) and logic (AND, OR, NOT).<br><strong>Control Unit (CU)</strong> — decodes instructions and directs every other component.<br><strong>Registers</strong> — tiny, super-fast storage slots inside the CPU.`},
+    {q:`What does the <em>ALU</em> do?`,
+     a:`Performs <strong>maths</strong> (+, −, ×, ÷) and <strong>logic</strong> operations (AND, OR, NOT).`},
+    {q:`What does the <em>Control Unit</em> do?`,
+     a:`<strong>Decodes instructions</strong> and directs every other component.`},
+    {q:`What are <em>registers</em>?`,
+     a:`Tiny, <strong>super-fast storage slots</strong> inside the CPU.`},
+    {q:`What does the Program Counter (PC) hold?`,
+     a:`The <strong>address of the next instruction</strong> to fetch.`},
+    {q:`What do general-purpose registers (R1, R2, …) hold?`,
+     a:`<strong>Operands and results</strong> during execution.`},
+    {q:`Name the four stages of the instruction cycle.`,
+     a:`<strong>FETCH</strong> — read next instruction from memory (address in PC).<br><strong>DECODE</strong> — CU figures out what it means.<br><strong>EXECUTE</strong> — ALU/registers/memory carry it out.<br><strong>UPDATE PC</strong> — advance to the next instruction.<br><br>Then loop back to FETCH.`},
+    {q:`List the five detailed steps for executing <code>Load R2, LOC</code>.`,
+     a:`1. <strong>Fetch</strong> — copy instruction at PC's address into the IR.<br>2. <strong>Decode</strong> — CU reads it; recognises <code>Load</code>.<br>3. <strong>Address calculation</strong> — work out the memory address to read (LOC).<br>4. <strong>Fetch operand</strong> — read the value from memory at that address.<br>5. <strong>Store</strong> — place the value into R2, advance PC.`},
+    {q:`Write the program that computes <code>C = A + B</code> (A,B,C = memory; R2,R3,R4 = registers).`,
+     a:`<code>Load R2, A</code> ; value at A → R2<br><code>Load R3, B</code> ; value at B → R3<br><code>Add R4, R2, R3</code> ; R4 = R2 + R3<br><code>Store R4, C</code> ; R4 → memory C`},
+    {q:`Why must reads go into registers, and why does the ALU work only on registers?`,
+     a:`Reads from memory go <strong>into</strong> a register; writes go <strong>out of</strong> a register.<br><br>The ALU only works on registers — it <strong>can't directly add numbers in memory</strong>.`},
+    {q:`Everything you've ever run boils down to what?`,
+     a:`The same <strong>fetch-decode-execute loop</strong>, running billions of times per second.`},
+    {q:`List the factors that make one CPU faster than another.`,
+     a:`• <strong>Clock speed</strong> (cycles/sec, e.g. 3.5 GHz)<br>• <strong>Number of cores</strong> (parallel ALUs)<br>• <strong>Cache size</strong> (fast memory near CPU)<br>• <strong>Instruction set efficiency</strong> (work per instruction)<br>• <strong>Memory & bus bandwidth</strong> (how fast data is fed in)<br>• <strong>Pipelining & parallelism</strong> (overlapping fetch/decode/execute)`},
+    {q:`When do extra cores NOT help performance?`,
+     a:`Extra cores only help if the program can be <strong>split into independent tasks</strong>.<br><br>A single-threaded program won't run faster on 16 cores than on 4.`},
+    {q:`Name the five instruction categories with examples.`,
+     a:`<strong>Data transfer</strong> — Load, Store, Move.<br><strong>Arithmetic</strong> — Add, Sub, Mul, Div.<br><strong>Logic</strong> — AND, OR, NOT, XOR.<br><strong>Control flow</strong> — Jump, Branch if equal, Call, Return.<br><strong>I/O</strong> — In, Out.`}
+  ]
+},
+{
+  short:"2", tab:"Ch 2", title:"Digital Rep.",
+  cards:[
+    {q:`What is everything inside a computer stored as — and what does Ch 2 give you?`,
+     a:`Everything is stored as <strong>binary</strong> — text, sound, images, signed numbers.<br><br>Ch 2 is the <strong>toolbox for converting between representations</strong>.`},
+    {q:`ASCII — how many bits, how many characters, what does it support?`,
+     a:`<strong>7-bit; 128 characters</strong> — uppercase, lowercase, digits, punctuation, control codes.<br><br>Designed for English; can't represent é, ñ, 中, ا.`},
+    {q:`What is Unicode and what's a code point?`,
+     a:`A much larger character set supporting <strong>every modern written language</strong>.<br><br>Each character has a <strong>code point</strong>, e.g. <code>U+6211</code> = 我.`},
+    {q:`Why was Unicode created?`,
+     a:`Because ASCII supports only 128 characters (mainly English; no accents, Chinese, Cyrillic, Arabic). Unicode supports a <strong>much larger set of characters</strong>.`},
+    {q:`List the 4 steps of digitising sound.`,
+     a:`1. Microphone captures the wave as an <strong>electrical signal</strong>.<br>2. <strong>ADC</strong> (Analog-to-Digital Converter) samples the signal at fixed intervals.<br>3. Each sample is <strong>rounded</strong> to the nearest whole number.<br>4. Each whole number is stored as <strong>binary</strong>.`},
+    {q:`Sound starts as what kind of wave?`,
+     a:`A <strong>continuous (analog) wave</strong> — it must be digitised.`},
+    {q:`What makes a digital recording match the original sound more closely?`,
+     a:`More <strong>samples per second</strong> and more <strong>bits per sample</strong>.`},
+    {q:`How is an image represented digitally?`,
+     a:`A grid of tiny dots (<strong>pixels</strong>). Each pixel stores three values — <strong>Red, Green, Blue (RGB)</strong>.<br><br>Millions of pixels together form the final image.`},
+    {q:`How many bits & colours per pixel with 8-bit RGB channels?`,
+     a:`Each channel is 8 bits (0–255) → <strong>24 bits per pixel</strong> → ~<strong>16.7 million</strong> possible colours.`},
+    {q:`Represent pure red in RGB and binary.`,
+     a:`(R=255, G=0, B=0) → <code>1111 1111 . 0000 0000 . 0000 0000</code>`},
+    {q:`The three number systems — base & digits.`,
+     a:`<strong>Decimal</strong> — base 10, digits 0–9.<br><strong>Binary</strong> — base 2, digits 0, 1.<br><strong>Hexadecimal</strong> — base 16, digits 0–9 and A–F (A=10 … F=15).`},
+    {q:`Why do programmers love hexadecimal?`,
+     a:`1 hex digit = exactly <strong>4 binary digits</strong>, so hex is a short way of writing binary.`},
+    {q:`Binary → decimal: method + example <code>101100101</code>.`,
+     a:`Write under the place values, add the weights of every 1:<br><br>256 + 64 + 32 + 4 + 1 = <strong>357</strong>`},
+    {q:`Decimal → binary: the method.`,
+     a:`1. List powers of 2: 128, 64, 32, 16, 8, 4, 2, 1.<br>2. Starting with the largest: if it fits, write <strong>1</strong> and subtract; else write <strong>0</strong>.<br>3. Repeat with the remainder until you reach 0.`},
+    {q:`Convert 156 to binary (show working).`,
+     a:`156 − 128 = 28 → 28 − 16 = 12 → 12 − 8 = 4 → 4 − 4 = 0.<br><br>→ <strong><code>1001 1100</code></strong>`},
+    {q:`Hex → binary mapping for 0–7.`,
+     a:`<code>0=0000  1=0001  2=0010  3=0011</code><br><code>4=0100  5=0101  6=0110  7=0111</code>`},
+    {q:`Hex → binary mapping for 8–F (with decimal).`,
+     a:`<code>8=1000  9=1001  A=1010(10)  B=1011(11)</code><br><code>C=1100(12)  D=1101(13)  E=1110(14)  F=1111(15)</code>`},
+    {q:`Convert <code>0x3573</code> to binary.`,
+     a:`3=0011, 5=0101, 7=0111, 3=0011<br><br>→ <strong><code>0011 0101 0111 0011</code></strong>`},
+    {q:`Grouping binary for hex — what if it isn't a multiple of 4?`,
+     a:`Pad with <strong>leading zeros on the left</strong>.<br><br>e.g. <code>11 0101 0111 0011</code> → <code>0011 0101 0111 0011</code>.`},
+    {q:`Hex → decimal: the method.`,
+     a:`Multiply each hex digit by <strong>16^position</strong> (counting from the right, starting at 0), then sum.`},
+    {q:`Convert <code>0xA2F7</code> to decimal (show working).`,
+     a:`A=10, 2, F=15, 7 with weights 4096, 256, 16, 1:<br><br>40960 + 512 + 240 + 7 = <strong>41,719</strong>`},
+    {q:`Four notations that all mean hex 3573?`,
+     a:`<code>0x3573</code>, <code>3573h</code>, <code>3573₁₆</code>, <code>3573 (base 16)</code>`},
+    {q:`Unsigned vs signed binary — what can each represent?`,
+     a:`<strong>Unsigned</strong> represents only non-negative integers.<br><br><strong>Signed</strong> can represent negative values too.`},
+    {q:`Unsigned range formula + values for 4 / 8 / 16 / 32 bits.`,
+     a:`<strong>0 to 2ⁿ − 1</strong><br><br>4 → 0 to 15<br>8 → 0 to 255<br>16 → 0 to 65,535<br>32 → 0 to 4,294,967,295`},
+    {q:`What is unsigned binary used for?`,
+     a:`Things that can never be negative: <strong>memory addresses, process IDs, cluster numbers</strong>.`},
+    {q:`Signed (two's complement) range formula + values for 4 / 8 / 16 / 32 bits.`,
+     a:`<strong>−2ⁿ⁻¹ to +2ⁿ⁻¹ − 1</strong><br><br>4 → −8 to +7<br>8 → −128 to +127<br>16 → −32,768 to +32,767<br>32 → −2,147,483,648 to +2,147,483,647`},
+    {q:`In signed binary, what does the leftmost bit mean?`,
+     a:`The <strong>sign</strong>: <code>0</code> → positive, <code>1</code> → negative.`},
+    {q:`Why do modern CPUs use two's complement?`,
+     a:`It makes <strong>addition and subtraction simple</strong> — there's no special "negative" handling needed.`},
+    {q:`Three-step recipe to represent <em>−x</em> in two's complement.`,
+     a:`1. Write <strong>+x</strong> in binary.<br>2. <strong>Flip every bit</strong> (one's complement).<br>3. <strong>Add 1</strong>.`},
+    {q:`Represent −5 in 4-bit two's complement (show steps).`,
+     a:`+5 = <code>0101</code> → flip = <code>1010</code> → +1 = <strong><code>1011</code></strong>.<br><br>Leftmost bit is 1 → confirms negative. ✓`},
+    {q:`The four binary addition rules.`,
+     a:`<code>0 + 0 = 0</code><br><code>0 + 1 = 1</code><br><code>1 + 1 = 10</code> (write 0, carry 1)<br><code>1 + 1 + 1 = 11</code> (write 1, carry 1)`},
+    {q:`Compute <code>0110 + 0011</code> in binary.`,
+     a:`<code>1001</code> &nbsp;(6 + 3 = 9) ✓`},
+    {q:`Binary subtraction the easy way — rule + example <code>7 − 5</code> (4-bit).`,
+     a:`<strong>A − B ≡ A + (two's complement of B)</strong><br><br>7 = <code>0111</code>, −5 = <code>1011</code> → sum = <code>1 0010</code> → keep 4 bits → <code>0010</code> = <strong>+2</strong> (discard the extra leading 1).`},
+    {q:`What is overflow?`,
+     a:`When the <strong>true mathematical answer doesn't fit</strong> in the number of bits available.`},
+    {q:`When does overflow occur in <em>addition</em>?`,
+     a:`Only when <strong>both operands have the same sign</strong> but the result has the <strong>opposite sign</strong>.<br><br>(+A)+(+B) → appears negative ⚠<br>(−A)+(−B) → appears positive ⚠<br>Different signs → overflow is impossible ✓`},
+    {q:`Show overflow: −7 + −6 in 4-bit (range −8 to +7).`,
+     a:`−7 = <code>1001</code>, −6 = <code>1010</code> → <code>1 0011</code> → discard 5th bit → <code>0011</code> = <strong>+3</strong>.<br><br>Two negatives gave a positive = <strong>overflow</strong>. True answer −13 is below −8.`},
+    {q:`When does overflow occur in <em>subtraction</em>?`,
+     a:`When the two operands have <strong>different signs</strong> and the result has the <strong>same sign as the subtrahend</strong> (the number being subtracted).<br><br>(+A)−(−B) → appears negative<br>(−A)−(+B) → appears positive`},
+    {q:`What is sign extension, and how is it done?`,
+     a:`To widen a signed number, <strong>copy the sign bit</strong> into all the new positions on the left. This preserves the value.`},
+    {q:`Sign-extend +5 and −2 from 4-bit to 8-bit.`,
+     a:`+5: <code>0101</code> → <code>0000 0101</code> (pad with 0s).<br>−2: <code>1110</code> → <code>1111 1110</code> (pad with 1s).`}
+  ]
+},
+{
+  short:"3", tab:"Ch 3", title:"Networks",
+  cards:[
+    {q:`What is a computer network, and what makes it work worldwide?`,
+     a:`Two or more devices sharing data.<br><br>The <strong>TCP/IP protocol stack</strong> makes this work across the entire planet using a <strong>layered design</strong>.`},
+    {q:`What four things do networks let computers do?`,
+     a:`<strong>Share resources</strong> — files, printers, internet.<br><strong>Communicate</strong> — email, video calls, messaging.<br><strong>Collaborate</strong> — edit the same document simultaneously.<br><strong>Scale</strong> — combine many small machines into one large service.`},
+    {q:`kbps vs kBps — meaning and use?`,
+     a:`<strong>kbps</strong> (small b) = <em>kilobits</em> per second — network speed.<br><br><strong>kBps</strong> (big B) = <em>kilobytes</em> per second — file transfer rates.`},
+    {q:`Exact values: 1 kbps and 1 kBps?`,
+     a:`1 kbps = <strong>1,000 bits</strong> per second.<br>1 kBps = <strong>1,024 bytes</strong> per second.`},
+    {q:`How do you convert between bits and bytes?`,
+     a:`<strong>Divide by 8</strong> to convert bits → bytes.<br><strong>Multiply by 8</strong> to convert bytes → bits.`},
+    {q:`List the network <em>hardware</em> components.`,
+     a:`<strong>NIC</strong> — converts your computer's data into network signals.<br><strong>Network medium</strong> — copper cable, fibre-optic, or radio waves.<br><strong>Interconnecting devices</strong> — hubs, switches, routers, access points.<br><strong>End devices</strong> — PCs, servers, phones, IoT sensors.`},
+    {q:`List the network <em>software</em> components.`,
+     a:`<strong>Operating system</strong> with networking support.<br><strong>Protocols</strong> (TCP/IP, HTTP, etc.) — agreed rules for communication.<br><strong>Applications</strong> — browser, email client, video conferencing tool.`},
+    {q:`Name the four TCP/IP layers (top → bottom) + protocols.`,
+     a:`<strong>4. Application</strong> — HTTP, FTP, DNS, SMTP.<br><strong>3. Transport</strong> — TCP, UDP.<br><strong>2. Internet</strong> — IP.<br><strong>1. Link</strong> — Ethernet, Wi-Fi.<br><br>Each layer only talks to the layer above and below it.`},
+    {q:`Application layer — job & address used?`,
+     a:`<strong>What the user is actually doing.</strong> Protocols: HTTP, FTP, DNS, SMTP — the "what" being sent.<br><br>Addresses: <strong>hostnames, URLs</strong>.`},
+    {q:`Transport layer — job & address used?`,
+     a:`<strong>End-to-end conversation; ports.</strong> Reliable/unreliable delivery via TCP/UDP.<br><br>Addresses: <strong>port numbers</strong>.`},
+    {q:`Internet layer — job & address used?`,
+     a:`<strong>Routing between networks.</strong> Protocol: IP.<br><br>Addresses: <strong>IP address</strong>.`},
+    {q:`Link layer — job & address used?`,
+     a:`<strong>Delivery within a single network.</strong> Ethernet, Wi-Fi — local delivery.<br><br>Addresses: <strong>MAC address</strong>.`},
+    {q:`Analogy for MAC vs IP?`,
+     a:`MAC = the device's <strong>postal address</strong>; IP = its <strong>name</strong> — both are needed to deliver a letter.`},
+    {q:`MAC vs IP — which layer is each?`,
+     a:`<strong>MAC</strong> = Link layer (2).<br><strong>IP</strong> = Internet layer (3).`},
+    {q:`MAC vs IP — length of each?`,
+     a:`<strong>MAC</strong> = 48 bits (6 bytes).<br><strong>IP</strong> (IPv4) = 32 bits.`},
+    {q:`MAC vs IP — format, with examples?`,
+     a:`<strong>MAC</strong> = 6 hex pairs, e.g. <code>D8-D3-85-EB-12-E3</code> (or <code>04-40-31-5B-1A-C4</code>).<br><br><strong>IP</strong> = 4 decimals, e.g. <code>10.10.10.143</code> (or <code>192.168.1.41</code>).`},
+    {q:`MAC vs IP — scope?`,
+     a:`<strong>MAC</strong> = local network only.<br><strong>IP</strong> = across the entire internet.`},
+    {q:`MAC vs IP — who assigns each?`,
+     a:`<strong>MAC</strong> = NIC manufacturer (permanent).<br><strong>IP</strong> = network admin or DHCP.`},
+    {q:`MAC vs IP — what is each used for?`,
+     a:`<strong>MAC</strong> = hop-by-hop delivery.<br><strong>IP</strong> = end-to-end routing.`},
+    {q:`Structure of a MAC address (its two halves)?`,
+     a:`<strong>First 24 bits = OUI</strong> (Organisationally Unique Identifier) — tells you the vendor (Cisco, Apple, Intel…).<br><br><strong>Last 24 bits</strong> = unique serial number from that vendor.<br><br>Guarantees every NIC has a different MAC from the factory.`},
+    {q:`Memory hook for MAC vs IP permanence?`,
+     a:`<strong>"MAC stays forever, IP can change."</strong><br><br>MAC is burnt in at the factory; IP can be reassigned by DHCP each time a device joins a network.`},
+    {q:`The two reserved addresses in every subnet?`,
+     a:`<strong>Network address</strong> — first address — identifies the network itself.<br><br><strong>Broadcast address</strong> — last address — sends a message to every device in the subnet.`},
+    {q:`For <code>10.10.10.0/24</code>, give network, first/last host, broadcast, total usable.`,
+     a:`Network: <code>10.10.10.0</code><br>First usable host: <code>10.10.10.1</code><br>Last usable host: <code>10.10.10.254</code><br>Broadcast: <code>10.10.10.255</code><br>Total usable hosts: <strong>254</strong>`},
+    {q:`Analogy for a broadcast address?`,
+     a:`Like an <strong>announcement over a shopping-mall loudspeaker</strong> — every device in the subnet hears the same message at the same time.`},
+    {q:`Why is usable hosts always <code>2ⁿ − 2</code>?`,
+     a:`The <strong>first (network)</strong> and <strong>last (broadcast)</strong> addresses of every subnet are reserved and can't be assigned to a real device.`},
+    {q:`What is a subnet mask?`,
+     a:`Tells you which part of an IP address is the <strong>network</strong> and which part is the <strong>host</strong>.`},
+    {q:`What does mask <code>255.255.255.0</code> mean, applied to <code>10.10.10.143</code>?`,
+     a:`First three octets (255.255.255) = <strong>network</strong>; last octet (0) = <strong>host</strong>.<br><br>So network = <code>10.10.10.0</code>, host = <strong>143</strong>.`},
+    {q:`LAN — full name & coverage?`,
+     a:`<strong>Local Area Network</strong> — a single building, office, or home.`},
+    {q:`WLAN — full name & coverage?`,
+     a:`<strong>Wireless LAN</strong> — a LAN using Wi-Fi instead of cable.`},
+    {q:`MAN — full name & coverage?`,
+     a:`<strong>Metropolitan Area Network</strong> — a city, campus, or large district.`},
+    {q:`WAN — full name & coverage?`,
+     a:`<strong>Wide Area Network</strong> — country-wide or global.`},
+    {q:`Internet vs Intranet vs Extranet?`,
+     a:`<strong>Internet</strong> — the largest WAN; worldwide network of networks.<br><strong>Intranet</strong> — private internal network inside a single organisation.<br><strong>Extranet</strong> — controlled access to partners (suppliers, customers reach part of the intranet).`},
+    {q:`The three private IP ranges (RFC 1918) + total sizes.`,
+     a:`<table>
+     <tr><th>Range</th><th>Total addresses</th></tr>
+     <tr><td>10.0.0.0 – 10.255.255.255</td><td>16,777,216</td></tr>
+     <tr><td>172.16.0.0 – 172.31.255.255</td><td>1,048,576</td></tr>
+     <tr><td>192.168.0.0 – 192.168.255.255</td><td>65,536</td></tr>
+     </table>
+     Never routed on the public internet.`},
+    {q:`Which private range does your home Wi-Fi typically use?`,
+     a:`Devices get IPs starting with <strong>192.168.</strong> — the private range in action.`},
+    {q:`What are public IPs, and who allocates them?`,
+     a:`Routable on the open internet, must be <strong>unique worldwide</strong>.<br><br>Allocated to ISPs by <strong>regional internet registries (RIRs)</strong>.`},
+    {q:`What is a <em>packet</em> (layer, contents, who reads it)?`,
+     a:`<strong>Internet layer (3).</strong><br><br>Data + source/destination <strong>IP addresses</strong> (+ port numbers).<br><br>Travels across networks; <strong>routers</strong> read the IP addresses to forward it.`},
+    {q:`What is a <em>frame</em> (layer, contents, who reads it)?`,
+     a:`<strong>Link layer (2).</strong><br><br>Wraps a packet with source/destination <strong>MAC addresses</strong> + an error-check trailer.<br><br>Travels within a single network; <strong>switches</strong> read the MAC addresses to forward it.`},
+    {q:`Packet vs frame — side by side.`,
+     a:`<table>
+     <tr><th></th><th>Packet</th><th>Frame</th></tr>
+     <tr><td>Layer</td><td>Internet (3)</td><td>Link (2)</td></tr>
+     <tr><td>Addressing</td><td>IP</td><td>MAC</td></tr>
+     <tr><td>Travels</td><td>Between networks</td><td>Within one network</td></tr>
+     <tr><td>Contains</td><td>Data + IP header</td><td>Packet + MAC header & trailer</td></tr>
+     </table>`},
+    {q:`What is encapsulation?`,
+     a:`The process of <strong>adding header (and trailer) information at each layer</strong> as data moves down the stack.`},
+    {q:`Show the encapsulation chain from app data to frame.`,
+     a:`Application data<br>↓ +Transport TCP/UDP header → <strong>Segment</strong><br>↓ +Internet IP header → <strong>Packet</strong><br>↓ +Link MAC header + trailer → <strong>Frame</strong><br>→ sent on the wire`},
+    {q:`Why send data in small bursts (3 reasons)?`,
+     a:`<strong>Reliability</strong> — only a small chunk re-sent if something fails.<br><strong>Fair sharing</strong> — many devices can interleave traffic.<br><strong>Routing flexibility</strong> — different packets can take different paths.`},
+    {q:`Typical and possible packet sizes?`,
+     a:`Typical ~<strong>1,500 bytes</strong> (standard Ethernet maximum).<br><br>Range: <strong>40 up to 9,000 bytes</strong> (jumbo frames).`},
+    {q:`Frame-and-envelope analogy?`,
+     a:`A frame is to a packet what an <strong>envelope</strong> is to a <strong>letter</strong>. The letter (packet) carries the message + destination (IP); the envelope (frame) carries postal-route info for the current leg (MAC).`},
+    {q:`Client vs server (definitions)?`,
+     a:`<strong>Client</strong> — the computer/software that <em>requests</em> a service.<br><br><strong>Server</strong> — the computer/software that <em>provides</em> a service.`},
+    {q:`In what three contexts is "client"/"server" used?`,
+     a:`1. The <strong>operating system</strong> (Windows 11 vs Windows Server).<br>2. The <strong>physical computer</strong>.<br>3. The <strong>piece of software</strong> running on that computer.`},
+    {q:`Trace visiting a website (client–server).`,
+     a:`1. Browser (client software) asks for example.com.<br>2. Request travels the internet as packets.<br>3. Web server (server software) responds with the HTML.<br>4. Browser displays the page.`}
+  ]
+},
+{
+  short:"4", tab:"Ch 4", title:"Net Devices",
+  cards:[
+    {q:`The core idea: hubs, switches, routers all move data, but differ how?`,
+     a:`They operate at <strong>different layers</strong> and with very different <strong>intelligence</strong>.<br><br>Knowing which is which is the difference between a working and broken network.`},
+    {q:`What is a NIC, and what forms can it take?`,
+     a:`<strong>Network Interface Card</strong> — the hardware that connects a computer to a network.<br><br>Can be a card, an onboard chip, or a USB dongle.`},
+    {q:`What does every NIC have (3 things)?`,
+     a:`• A unique <strong>48-bit MAC address</strong> stored in ROM.<br>• <strong>Indicator lights</strong> — link, activity, often speed.<br>• A <strong>driver</strong> so the OS can talk to it.`},
+    {q:`NIC status lights — link, activity, colour.`,
+     a:`<strong>Link</strong> (typically green) — successfully connected to the medium.<br><strong>Activity</strong> (blinking) — data being sent/received.<br><strong>Different colours</strong> on multi-speed NICs — indicate speed (e.g. amber = 100 Mbps, green = 1000 Mbps).`},
+    {q:`How does a wireless NIC connect to an access point?`,
+     a:`Using an <strong>SSID</strong> (the Wi-Fi network name) and usually a <strong>security key</strong>.`},
+    {q:`802.11 (original) — range, max speed, band?`,
+     a:`20 m indoor / 100 m outdoor · <strong>2 Mbps</strong> · 2.4 GHz.`},
+    {q:`802.11a — range, max speed, band?`,
+     a:`35 m / 119 m · <strong>54 Mbps</strong> · 5 GHz.`},
+    {q:`802.11b — range, max speed, band?`,
+     a:`35 m / 140 m · <strong>11 Mbps</strong> · 2.4 GHz.`},
+    {q:`802.11g — range, max speed, band?`,
+     a:`45 m / 90 m · <strong>54 Mbps</strong> · 2.4 GHz.`},
+    {q:`802.11n — range, max speed, band?`,
+     a:`70 m / 250 m · <strong>600 Mbps</strong> · 2.4 / 5 GHz.`},
+    {q:`802.11ac — range, max speed, band?`,
+     a:`35 m / N/A · <strong>6.9 Gbps</strong> · 5 GHz.`},
+    {q:`802.11ax (Wi-Fi 6) — range, max speed, band?`,
+     a:`30 m / 120 m · <strong>9.6 Gbps</strong> · 2.4 / 5 / 6 GHz.`},
+    {q:`802.11be (Wi-Fi 7) — range, max speed, band?`,
+     a:`30 m / 120 m · <strong>46.1 Gbps</strong> · 2.4 / 5 / 6 GHz.`},
+    {q:`5 GHz vs 2.4 GHz tradeoff?`,
+     a:`<strong>5 GHz</strong> — faster but shorter range.<br><strong>2.4 GHz</strong> — slower but goes further and penetrates walls better.`},
+    {q:`What does a <em>repeater</em> do?`,
+     a:`Receives a <strong>weakened signal, regenerates it</strong> (cleans up noise), and forwards it on — extending max cable length.<br><br>It <strong>regenerates, not just amplifies</strong> (amplifying would boost the noise too).`},
+    {q:`What is a <em>hub</em>, and how does it behave?`,
+     a:`A <strong>multi-port repeater</strong>. Receives a bit signal on one port and <strong>broadcasts it out every other port</strong>, regardless of destination.<br><br>No intelligence — it doesn't know where devices are.`},
+    {q:`Why are hubs obsolete?`,
+     a:`They <strong>flood the entire network</strong> with every frame, causing congestion; all ports <strong>share the same bandwidth</strong>. Switches replaced them.`},
+    {q:`What layer are repeaters and hubs?`,
+     a:`<strong>Layer 1 (Physical)</strong> — "dumb" devices.`},
+    {q:`What is a <em>switch</em>, and how does it forward?`,
+     a:`A <strong>Layer 2</strong> device that looks like a hub but is intelligent — it examines incoming frames and forwards each <strong>only to the port that needs it</strong>.`},
+    {q:`How does a switch learn (3 steps)?`,
+     a:`1. When a frame arrives, it records <strong>source MAC + arriving port</strong> in its table.<br>2. It looks up the <strong>destination MAC</strong>.<br>3. If found → forward only out that port. If not found → <strong>flood (broadcast)</strong> and learn next time.`},
+    {q:`What does a switch learn from vs forward on?`,
+     a:`It always <strong>learns from the source MAC</strong> of every frame, but <strong>forwards based on the destination MAC</strong>.<br><br>Over time the table fills and it gets more efficient.`},
+    {q:`Switch vs hub — full comparison.`,
+     a:`<table>
+     <tr><th>Feature</th><th>Hub</th><th>Switch</th></tr>
+     <tr><td>Forwarding</td><td>Broadcast to all</td><td>Unicast to correct port</td></tr>
+     <tr><td>Bandwidth</td><td>Shared</td><td>Dedicated per port</td></tr>
+     <tr><td>Duplex</td><td>Half only</td><td>Full (send + receive)</td></tr>
+     <tr><td>Intelligence</td><td>None</td><td>MAC address table</td></tr>
+     <tr><td>Performance</td><td>Slow, congestion</td><td>Fast, efficient</td></tr>
+     </table>`},
+    {q:`What happens when a switch meets an unknown destination MAC?`,
+     a:`It <strong>floods</strong> the frame (behaves like a hub for that one frame), then <strong>learns</strong> and behaves normally next time.`},
+    {q:`What is a <em>router</em>, and what does it use to forward?`,
+     a:`A <strong>Layer 3</strong> device that connects different LANs and forwards packets between them using <strong>IP addresses</strong>.`},
+    {q:`What does a router do, step by step?`,
+     a:`• Reads the <strong>destination IP</strong> of an incoming packet.<br>• Looks up the best path in its <strong>routing table</strong>.<br>• Forwards the packet toward the destination (possibly via other routers).<br>• Does <strong>not forward broadcast traffic</strong> by default → contains broadcast storms.`},
+    {q:`Read a router's routing table example.`,
+     a:`<table>
+     <tr><th>Destination</th><th>Next hop</th></tr>
+     <tr><td>192.168.1.0/24</td><td>directly connected (LAN A)</td></tr>
+     <tr><td>192.168.2.0/24</td><td>directly connected (LAN B)</td></tr>
+     <tr><td>10.0.0.0/8</td><td>203.0.113.1 (upstream)</td></tr>
+     <tr><td>Default 0.0.0.0/0</td><td>203.0.113.1 (ISP)</td></tr>
+     </table>`},
+    {q:`During routing, what changes and what stays the same?`,
+     a:`The <strong>IP header stays the same</strong> (end-to-end addressing).<br><br>The <strong>MAC header is replaced at every hop</strong> (hop-by-hop delivery).<br><br>IP = end-to-end; MAC = each hop.`},
+    {q:`Hub vs Switch vs Router — layer?`,
+     a:`<strong>Hub</strong> = Physical/Link (1).<br><strong>Switch</strong> = Link (2).<br><strong>Router</strong> = Internet (3).`},
+    {q:`Hub vs Switch vs Router — forwarding decision?`,
+     a:`<strong>Hub</strong> blindly broadcasts.<br><strong>Switch</strong> uses destination MAC.<br><strong>Router</strong> uses destination IP.`},
+    {q:`Hub vs Switch vs Router — information stored?`,
+     a:`<strong>Hub</strong> — none.<br><strong>Switch</strong> — MAC ↔ port table.<br><strong>Router</strong> — routing table.`},
+    {q:`Hub vs Switch vs Router — unit forwarded?`,
+     a:`<strong>Hub</strong> — bits.<br><strong>Switch</strong> — frames.<br><strong>Router</strong> — packets.`},
+    {q:`Hub vs Switch vs Router — duplex & stops broadcasts?`,
+     a:`<strong>Duplex:</strong> hub half · switch full or half · router full.<br><br><strong>Stops broadcasts:</strong> hub no · switch no · router <strong>yes (by default)</strong>.`},
+    {q:`Hub vs Switch vs Router — what do they connect?`,
+     a:`<strong>Hub & Switch</strong> — devices on the same LAN.<br><strong>Router</strong> — different LANs.`},
+    {q:`What is CIDR notation?`,
+     a:`<strong>Classless Inter-Domain Routing</strong> — writes an IP with its mask as <code>IP/prefix</code>.<br><br>The prefix = number of bits for the <strong>network portion</strong>; the rest are <strong>host bits</strong>.`},
+    {q:`How does CIDR slice the 32 bits?`,
+     a:`Every IPv4 address is 32 bits.<br><br><strong>Network bits</strong> = first <em>p</em> (same for everyone in the subnet).<br><strong>Host bits</strong> = 32 − <em>p</em> (name each device).`},
+    {q:`Bigger /p means…?`,
+     a:`A <strong>smaller network</strong>. A /24 has 254 hosts; a /30 has only 2.`},
+    {q:`The two quantities you always compute first in CIDR.`,
+     a:`<strong>Host bits</strong> &nbsp;h = 32 − p &nbsp;(bits naming a device).<br><br><strong>Block size</strong> &nbsp;B = 256 − (mask value of split octet) &nbsp;(the step between adjacent subnets).`},
+    {q:`The five CIDR answers and how to get each.`,
+     a:`1. <strong>Subnet mask</strong> — p ones then (32−p) zeros, dotted decimal.<br>2. <strong>Total addresses</strong> — 2^h.<br>3. <strong>Usable hosts</strong> — 2^h − 2.<br>4. <strong>Network address</strong> — round the IP's split octet DOWN to nearest multiple of block size; later octets all 0.<br>5. <strong>Broadcast</strong> — split octet = network split octet + (B−1); later octets all 255.`},
+    {q:`In CIDR, which address is network and which is broadcast?`,
+     a:`First address (all host bits = 0) = <strong>network</strong>.<br>Last address (all host bits = 1) = <strong>broadcast</strong>.<br><br>Neither assignable → usable = 2ⁿ − 2.`},
+    {q:`Power-of-two reference: total & usable for h = 2, 4, 6, 8.`,
+     a:`<table>
+     <tr><th>Host bits</th><th>Total 2^h</th><th>Usable 2^h−2</th></tr>
+     <tr><td>2</td><td>4</td><td>2</td></tr>
+     <tr><td>4</td><td>16</td><td>14</td></tr>
+     <tr><td>6</td><td>64</td><td>62</td></tr>
+     <tr><td>8</td><td>256</td><td>254</td></tr>
+     </table>`},
+    {q:`Power-of-two reference: total & usable for h = 10, 11, 12, 16.`,
+     a:`<table>
+     <tr><th>Host bits</th><th>Total 2^h</th><th>Usable 2^h−2</th></tr>
+     <tr><td>10</td><td>1,024</td><td>1,022</td></tr>
+     <tr><td>11</td><td>2,048</td><td>2,046</td></tr>
+     <tr><td>12</td><td>4,096</td><td>4,094</td></tr>
+     <tr><td>16</td><td>65,536</td><td>65,534</td></tr>
+     </table>`},
+    {q:`Which prefixes are a "clean break" (no split octet)?`,
+     a:`<strong>/8, /16, /24, /32</strong> — the boundary sits cleanly between octets; no binary needed.`},
+    {q:`For /9–/15, which octet splits and what's after it?`,
+     a:`Mask <code>255.X.0.0</code> — split octet is the <strong>2nd</strong>; octets after = 3rd & 4th.`},
+    {q:`For /17–/23, which octet splits and what's after it?`,
+     a:`Mask <code>255.255.X.0</code> — split octet is the <strong>3rd</strong>; octet after = 4th.`},
+    {q:`For /25–/31, which octet splits and what's after it?`,
+     a:`Mask <code>255.255.255.X</code> — split octet is the <strong>4th</strong>; no octets after.`},
+    {q:`Mask value ↔ bits used ↔ block size (full list).`,
+     a:`<table>
+     <tr><th>Bits</th><th>Mask value</th><th>Block (256−mask)</th></tr>
+     <tr><td>1</td><td>128</td><td>128</td></tr>
+     <tr><td>2</td><td>192</td><td>64</td></tr>
+     <tr><td>3</td><td>224</td><td>32</td></tr>
+     <tr><td>4</td><td>240</td><td>16</td></tr>
+     <tr><td>5</td><td>248</td><td>8</td></tr>
+     <tr><td>6</td><td>252</td><td>4</td></tr>
+     <tr><td>7</td><td>254</td><td>2</td></tr>
+     <tr><td>8</td><td>255</td><td>1</td></tr>
+     </table>
+     Pattern: 128, 192, 224, 240, 248, 252, 254, 255.`},
+    {q:`Worked Example 1 — <code>192.168.1.0/24</code>, give every value.`,
+     a:`p=24, h=8, clean break.<br><br>Mask <strong>255.255.255.0</strong> · total <strong>256</strong> · usable <strong>254</strong>.<br>Network <strong>192.168.1.0</strong> · broadcast <strong>192.168.1.255</strong>.<br>Usable range <strong>192.168.1.1 – 192.168.1.254</strong>.`},
+    {q:`Worked Example 2 — <code>172.22.20.159/21</code>, give every value.`,
+     a:`p=21, h=11, split 3rd octet, mask 248, block 8.<br><br>Mask <strong>255.255.248.0</strong> · total <strong>2,048</strong> · usable <strong>2,046</strong>.<br>Network: 20 rounds down to 16 → <strong>172.22.16.0</strong>.<br>Broadcast: 16 + (8−1) = 23 → <strong>172.22.23.255</strong>.<br>Range <strong>172.22.16.1 – 172.22.23.254</strong>.`},
+    {q:`The common /21 trap with <code>172.22.20.159</code>?`,
+     a:`Don't assume the network is <code>172.22.20.0</code> — the boundary cuts <strong>inside the 3rd octet</strong>, so it rounds DOWN to <strong>172.22.16.0</strong>.<br><br>Always check the block size first.`},
+    {q:`Worked Example 3 — <code>192.168.10.100/26</code>, give every value.`,
+     a:`p=26, h=6, split 4th octet, mask 192, block 64.<br><br>Mask <strong>255.255.255.192</strong> · total <strong>64</strong> · usable <strong>62</strong>.<br>Network: 100 rounds down to 64 → <strong>192.168.10.64</strong>.<br>Broadcast: 64 + (64−1) = 127 → <strong>192.168.10.127</strong>.<br>Range <strong>192.168.10.65 – 192.168.10.126</strong>.`},
+    {q:`The sanity check after every CIDR calculation?`,
+     a:`The IP given in the question must sit <strong>between the network address and the broadcast address</strong> (inclusive).<br><br>If not, your network address is wrong — redo the block-size step.`},
+    {q:`What problem does NAT solve?`,
+     a:`There aren't enough public IPv4 addresses for every device on Earth — <strong>NAT lets many devices share one public IP</strong>.`},
+    {q:`What is NAT, and how does it work (4 steps)?`,
+     a:`<strong>Network Address Translation</strong> rewrites IP addresses in packet headers as traffic passes through the router.<br><br>1. Each device gets a private IP (e.g. 192.168.1.42).<br>2. Router has one public IP from the ISP (e.g. 203.0.113.5).<br>3. <strong>Outgoing:</strong> router replaces private source IP with its public IP and remembers the mapping.<br>4. <strong>Incoming:</strong> router looks up the mapping and forwards the reply to the right private device.`},
+    {q:`Everyday example of NAT?`,
+     a:`30 phones, laptops and IoT devices in your home all <strong>sharing one public IP</strong> from your ISP.`},
+    {q:`What is the default gateway?`,
+     a:`The <strong>router a device sends a packet to</strong> when the destination IP isn't on the local network.`},
+    {q:`Trace the default gateway with 8.8.8.8 (router 192.168.1.1).`,
+     a:`A device wants <strong>8.8.8.8</strong> (Google DNS). It's not in the local 192.168.1.0/24 subnet, so the device sends the packet to its <strong>default gateway (192.168.1.1)</strong>, and the router handles the rest.`}
+  ]
+},
+{
+  short:"App", tab:"Appx", title:"Tables & Glossary",
+  cards:[
+    {q:`CIDR quick-ref: /8, /9, /16 — mask, host bits, usable.`,
+     a:`<table>
+     <tr><th>CIDR</th><th>Mask</th><th>h</th><th>Usable</th></tr>
+     <tr><td>/8</td><td>255.0.0.0</td><td>24</td><td>16,777,214</td></tr>
+     <tr><td>/9</td><td>255.128.0.0</td><td>23</td><td>8,388,606</td></tr>
+     <tr><td>/16</td><td>255.255.0.0</td><td>16</td><td>65,534</td></tr>
+     </table>`},
+    {q:`CIDR quick-ref: /17–/20 — mask, host bits, usable.`,
+     a:`<table>
+     <tr><th>CIDR</th><th>Mask</th><th>h</th><th>Usable</th></tr>
+     <tr><td>/17</td><td>255.255.128.0</td><td>15</td><td>32,766</td></tr>
+     <tr><td>/18</td><td>255.255.192.0</td><td>14</td><td>16,382</td></tr>
+     <tr><td>/19</td><td>255.255.224.0</td><td>13</td><td>8,190</td></tr>
+     <tr><td>/20</td><td>255.255.240.0</td><td>12</td><td>4,094</td></tr>
+     </table>`},
+    {q:`CIDR quick-ref: /21–/24 — mask, host bits, usable.`,
+     a:`<table>
+     <tr><th>CIDR</th><th>Mask</th><th>h</th><th>Usable</th></tr>
+     <tr><td>/21</td><td>255.255.248.0</td><td>11</td><td>2,046</td></tr>
+     <tr><td>/22</td><td>255.255.252.0</td><td>10</td><td>1,022</td></tr>
+     <tr><td>/23</td><td>255.255.254.0</td><td>9</td><td>510</td></tr>
+     <tr><td>/24</td><td>255.255.255.0</td><td>8</td><td>254</td></tr>
+     </table>`},
+    {q:`CIDR quick-ref: /25–/27 — mask, host bits, usable.`,
+     a:`<table>
+     <tr><th>CIDR</th><th>Mask</th><th>h</th><th>Usable</th></tr>
+     <tr><td>/25</td><td>255.255.255.128</td><td>7</td><td>126</td></tr>
+     <tr><td>/26</td><td>255.255.255.192</td><td>6</td><td>62</td></tr>
+     <tr><td>/27</td><td>255.255.255.224</td><td>5</td><td>30</td></tr>
+     </table>`},
+    {q:`CIDR quick-ref: /28–/30 — mask, host bits, usable.`,
+     a:`<table>
+     <tr><th>CIDR</th><th>Mask</th><th>h</th><th>Usable</th></tr>
+     <tr><td>/28</td><td>255.255.255.240</td><td>4</td><td>14</td></tr>
+     <tr><td>/29</td><td>255.255.255.248</td><td>3</td><td>6</td></tr>
+     <tr><td>/30</td><td>255.255.255.252</td><td>2</td><td>2</td></tr>
+     </table>`},
+    {q:`Mask octet → block size lookup (full).`,
+     a:`<table>
+     <tr><th>Mask</th><th>Binary</th><th>Bits</th><th>Block</th></tr>
+     <tr><td>128</td><td>1000 0000</td><td>1</td><td>128</td></tr>
+     <tr><td>192</td><td>1100 0000</td><td>2</td><td>64</td></tr>
+     <tr><td>224</td><td>1110 0000</td><td>3</td><td>32</td></tr>
+     <tr><td>240</td><td>1111 0000</td><td>4</td><td>16</td></tr>
+     <tr><td>248</td><td>1111 1000</td><td>5</td><td>8</td></tr>
+     <tr><td>252</td><td>1111 1100</td><td>6</td><td>4</td></tr>
+     <tr><td>254</td><td>1111 1110</td><td>7</td><td>2</td></tr>
+     <tr><td>255</td><td>1111 1111</td><td>8</td><td>1</td></tr>
+     </table>`},
+    {q:`Decimal place values?`,
+     a:`<code>… 10⁴ 10³ 10² 10¹ 10⁰</code><br><code>10000 1000 100 10 1</code>`},
+    {q:`Binary place values (1 byte)?`,
+     a:`<code>2⁷ 2⁶ 2⁵ 2⁴ 2³ 2² 2¹ 2⁰</code><br><code>128 64 32 16 8 4 2 1</code>`},
+    {q:`Hex place values?`,
+     a:`<code>… 16³ 16² 16¹ 16⁰</code><br><code>4096 256 16 1</code>`},
+    {q:`Common equivalents: 0, 10, 15, 16 (dec/bin/hex).`,
+     a:`<table>
+     <tr><th>Dec</th><th>Binary</th><th>Hex</th></tr>
+     <tr><td>0</td><td>0000</td><td>0</td></tr>
+     <tr><td>10</td><td>1010</td><td>A</td></tr>
+     <tr><td>15</td><td>1111</td><td>F</td></tr>
+     <tr><td>16</td><td>0001 0000</td><td>10</td></tr>
+     </table>`},
+    {q:`Common equivalents: 32, 64, 100, 128 (dec/bin/hex).`,
+     a:`<table>
+     <tr><th>Dec</th><th>Binary</th><th>Hex</th></tr>
+     <tr><td>32</td><td>0010 0000</td><td>20</td></tr>
+     <tr><td>64</td><td>0100 0000</td><td>40</td></tr>
+     <tr><td>100</td><td>0110 0100</td><td>64</td></tr>
+     <tr><td>128</td><td>1000 0000</td><td>80</td></tr>
+     </table>`},
+    {q:`Common equivalents: 200, 255 (dec/bin/hex).`,
+     a:`<table>
+     <tr><th>Dec</th><th>Binary</th><th>Hex</th></tr>
+     <tr><td>200</td><td>1100 1000</td><td>C8</td></tr>
+     <tr><td>255</td><td>1111 1111</td><td>FF</td></tr>
+     </table>`},
+    {q:`Useful powers of two: 2⁴, 2⁸, 2¹⁰, 2¹⁶.`,
+     a:`2⁴ = <strong>16</strong><br>2⁸ = <strong>256</strong><br>2¹⁰ = <strong>1,024</strong><br>2¹⁶ = <strong>65,536</strong>`},
+    {q:`Useful powers of two: 2²⁰, 2²⁴, 2³².`,
+     a:`2²⁰ = <strong>1,048,576</strong><br>2²⁴ = <strong>16,777,216</strong><br>2³² = <strong>4,294,967,296</strong>`},
+    {q:`Glossary: ALU, ASCII, Bandwidth.`,
+     a:`<strong>ALU</strong> — Arithmetic Logic Unit; does maths and logic inside the CPU.<br><strong>ASCII</strong> — 7-bit character encoding; 128 standard characters.<br><strong>Bandwidth</strong> — the maximum data rate of a connection (e.g. 1 Gbps).`},
+    {q:`Glossary: BIOS, Bit, Block size (CIDR).`,
+     a:`<strong>BIOS</strong> — Basic Input/Output System; firmware that boots the computer.<br><strong>Bit</strong> — smallest unit of data; 0 or 1.<br><strong>Block size (CIDR)</strong> — 256 − (mask of interesting octet); step between adjacent subnets.`},
+    {q:`Glossary: Broadcast, Bus, Byte.`,
+     a:`<strong>Broadcast</strong> — a frame/packet sent to every device in a subnet.<br><strong>Bus</strong> — set of wires that carries signals between computer components.<br><strong>Byte</strong> — 8 bits.`},
+    {q:`Glossary: Cache, CIDR, Client.`,
+     a:`<strong>Cache</strong> — small, very fast memory close to the CPU.<br><strong>CIDR</strong> — Classless Inter-Domain Routing; IP/prefix notation.<br><strong>Client</strong> — device or software that requests a service.`},
+    {q:`Glossary: Control Unit, CPU, DHCP.`,
+     a:`<strong>Control Unit</strong> — part of the CPU that decodes instructions and directs other components.<br><strong>CPU</strong> — Central Processing Unit; the main processor.<br><strong>DHCP</strong> — Dynamic Host Configuration Protocol; automatically assigns IPs to devices.`},
+    {q:`Glossary: Encapsulation, Frame, Full-duplex.`,
+     a:`<strong>Encapsulation</strong> — adding header/trailer info as data moves down the TCP/IP stack.<br><strong>Frame</strong> — link-layer chunk of data with MAC addresses.<br><strong>Full-duplex</strong> — sending and receiving at the same time.`},
+    {q:`Glossary: Gateway, HDD, Hex.`,
+     a:`<strong>Gateway</strong> — router used to leave the local network.<br><strong>HDD</strong> — Hard Disk Drive; spinning magnetic long-term storage.<br><strong>Hex</strong> — Hexadecimal; base-16, digits 0–9, A–F.`},
+    {q:`Glossary: Hub, IP Address, LAN.`,
+     a:`<strong>Hub</strong> — Layer-1 device that broadcasts every signal to all ports.<br><strong>IP Address</strong> — logical 32-bit address identifying a host on the internet.<br><strong>LAN</strong> — Local Area Network; single-location network.`},
+    {q:`Glossary: MAC Address, MAN, NAT.`,
+     a:`<strong>MAC Address</strong> — 48-bit hardware address assigned to a NIC.<br><strong>MAN</strong> — Metropolitan Area Network.<br><strong>NAT</strong> — Network Address Translation; maps private IPs to a public IP.`},
+    {q:`Glossary: NIC, OS, Overflow.`,
+     a:`<strong>NIC</strong> — Network Interface Card; connects a computer to a network.<br><strong>OS</strong> — Operating System.<br><strong>Overflow</strong> — when an arithmetic result doesn't fit in the available bits.`},
+    {q:`Glossary: Packet, POST, Prefix length (CIDR).`,
+     a:`<strong>Packet</strong> — internet-layer chunk of data with IP addresses.<br><strong>POST</strong> — Power-On Self-Check; hardware verification routine during boot.<br><strong>Prefix length (CIDR)</strong> — number of bits used for the network portion.`},
+    {q:`Glossary: RAM, Router, Server.`,
+     a:`<strong>RAM</strong> — Random Access Memory; volatile working memory.<br><strong>Router</strong> — Layer-3 device that forwards packets between networks.<br><strong>Server</strong> — device or software that provides services to clients.`},
+    {q:`Glossary: SSD, SSID, Subnet mask.`,
+     a:`<strong>SSD</strong> — Solid State Drive; flash-based long-term storage.<br><strong>SSID</strong> — the name of a Wi-Fi network.<br><strong>Subnet mask</strong> — bit pattern that splits an IP into network and host portions.`},
+    {q:`Glossary: Switch, TCP/IP, Two's Complement.`,
+     a:`<strong>Switch</strong> — Layer-2 device that forwards frames using MAC addresses.<br><strong>TCP/IP</strong> — the four-layer protocol stack used by the internet.<br><strong>Two's Complement</strong> — standard way to represent signed integers; flip bits + add 1.`},
+    {q:`Glossary: Unicode, WAN, WLAN.`,
+     a:`<strong>Unicode</strong> — universal character set supporting all modern languages.<br><strong>WAN</strong> — Wide Area Network.<br><strong>WLAN</strong> — Wireless LAN.`},
+    {q:`The final study tip for CIDR mastery?`,
+     a:`Do <strong>5–10 random worked examples per day for a week</strong>. Pick random IPs and prefixes between /16 and /30, work them through with the block-size shortcut. Speed and confidence follow.`}
+  ]
+}
+];
+
+
+let currentDeck = 0, order = [], pos = 0, flipped = false;
+let gradedAll = DECKS.map(() => ({}));
+let mode = 'flip';                       // 'flip' | 'type'
+let suppressFade = false;                // skip the mount fade in special cases
+let answersAll = DECKS.map(() => ({}));  // per-deck typed answers {cardIdx: text}
+let answers = answersAll[0];
+let graded = gradedAll[0];
+
+const tabsEl=document.getElementById('tabs'), stage=document.getElementById('stage');
+const cardCountEl=document.getElementById('cardCount'), goodCountEl=document.getElementById('goodCount'), badCountEl=document.getElementById('badCount');
+const barGood=document.getElementById('barGood'), barBad=document.getElementById('barBad'), meta=document.getElementById('meta');
+const prevBtn=document.getElementById('prevBtn'), nextBtn=document.getElementById('nextBtn');
+const againBtn=document.getElementById('againBtn'), gotBtn=document.getElementById('gotBtn');
+const shuffleBtn=document.getElementById('shuffleBtn'), resetBtn=document.getElementById('resetBtn');
+
+DECKS.forEach((d,i)=>{
+  const b=document.createElement('button');
+  b.className='tab'+(i===0?' active':'');
+  b.innerHTML=`<span>${d.tab}</span><span class="num">${d.title}</span>`;
+  b.onclick=()=>selectDeck(i);
+  tabsEl.appendChild(b);
+});
+
+function selectDeck(i){
+  currentDeck=i; graded=gradedAll[i]; answers=answersAll[i];
+  [...tabsEl.children].forEach((c,j)=>c.classList.toggle('active',j===i));
+  [...tabsEl.children][i].scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});
+  order=DECKS[i].cards.map((_,k)=>k); pos=0; flipped=false; render();
+}
+
+function buildCardHTML(){
+  const typeFront = `
+      <div class="label"><span>Question</span><span class="chapter-tag" id="chapTagFront"></span></div>
+      <div class="content"><div class="content-inner" id="qText"></div></div>
+      <div class="type-area">
+        <textarea id="typeBox" placeholder="Type your answer from memory, then check…" autocomplete="off" autocapitalize="sentences" spellcheck="false"></textarea>
+        <button class="type-submit" id="checkBtn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Check answer</button>
+        <span class="type-hint">Tip: press Ctrl/⌘ + Enter to check</span>
+      </div>`;
+  const flipFront = `
+      <div class="label"><span>Question</span><span class="chapter-tag" id="chapTagFront"></span></div>
+      <div class="content"><div class="content-inner" id="qText"></div></div>
+      <div class="flip-hint">Tap to flip · swipe to navigate</div>`;
+  const back = mode==='type' ? `
+      <div class="label"><span>Compare</span><span class="chapter-tag" id="chapTagBack"></span></div>
+      <div class="content">
+        <div class="verdict" id="verdict"></div>
+        <div class="your-answer">
+          <div class="ya-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>Your answer</div>
+          <div class="ya-text" id="yourAns"></div>
+        </div>
+        <div class="keywords" id="keywords"></div>
+        <div class="model-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>Model answer</div>
+        <div class="content-inner" id="aText"></div>
+      </div>
+      <div class="flip-hint">How close were you? Grade below</div>` : `
+      <div class="label"><span>Answer</span><span class="chapter-tag" id="chapTagBack"></span></div>
+      <div class="content"><div class="content-inner" id="aText"></div></div>
+      <div class="flip-hint">Grade yourself below</div>`;
+  return `<div class="face front">${mode==='type'?typeFront:flipFront}</div><div class="face back">${back}</div>`;
+}
+
+let mountedSig = null;   // signature of the card currently in the DOM
+
+// (Re)build the card DOM node. Only called when the card or mode changes.
+function mountCard(){
+  const c=document.createElement('div');
+  c.className='card'+(mode==='type'?' type-mode':'');
+  c.id='card';
+  c.innerHTML=buildCardHTML();
+  stage.innerHTML=''; stage.appendChild(c);
+  bindCard();
+  fillCard();          // populate question/answer/handlers
+}
+
+// Populate the (already-mounted) card's text + handlers for the current position.
+function fillCard(){
+  const deck=DECKS[currentDeck], c=deck.cards[order[pos]];
+  document.getElementById('qText').innerHTML=c.q;
+  document.getElementById('aText').innerHTML=c.a;
+  const tag=`Ch ${deck.short} · ${pos+1}/${order.length}`;
+  document.getElementById('chapTagFront').textContent=tag;
+  document.getElementById('chapTagBack').textContent=tag;
+
+  if(mode==='type'){
+    const box=document.getElementById('typeBox');
+    box.value = answers[order[pos]] || '';
+    box.oninput=()=>{ answers[order[pos]]=box.value; };
+    const doCheck=()=>{
+      answers[order[pos]]=box.value;
+      if(flipped) return;
+      flipped=true;
+      renderTypeBack();
+      const cardEl=document.getElementById('card');
+      cardEl.classList.add('flipped');          // triggers the flip transition
+      // ensure the back is scrolled to the top so the verdict banner is visible
+      const back=cardEl.querySelector('.face.back .content');
+      if(back) back.scrollTop=0;
+      againBtn.disabled=false; gotBtn.disabled=false;
+    };
+    document.getElementById('checkBtn').onclick=doCheck;
+    box.addEventListener('keydown',ev=>{ if((ev.metaKey||ev.ctrlKey)&&ev.key==='Enter'){ev.preventDefault();doCheck();} });
+    if(flipped) renderTypeBack();
+  }
+}
+
+function render(){
+  const sig = currentDeck+'|'+order[pos]+'|'+mode;
+  const card0 = document.getElementById('card');
+  const sameCard = (sig===mountedSig) && card0;
+
+  if(!sameCard){
+    // New card or mode change: rebuild DOM (no flip animation between different cards).
+    mountCard();
+    mountedSig = sig;
+    const card=document.getElementById('card');
+    card.classList.remove('swipe-l','swipe-r');
+    card.classList.toggle('flipped', flipped);
+    card.querySelectorAll('.content').forEach(el=>el.scrollTop=0);
+    if(!suppressFade){
+      card.classList.add('changing');
+      setTimeout(()=>card.classList.remove('changing'),320);
+    }
+  } else {
+    // Same card still mounted → just toggle the class so the CSS transition plays.
+    card0.classList.remove('swipe-l','swipe-r');
+    card0.classList.toggle('flipped', flipped);
+    // keep both faces scrolled to the top so banners/headers stay visible
+    card0.querySelectorAll('.content').forEach(el=>el.scrollTop=0);
+  }
+
+  updateChrome();
+}
+
+// Header / progress / button state — independent of the card DOM.
+function updateChrome(){
+  const deck=DECKS[currentDeck];
+  cardCountEl.textContent=`Card ${pos+1} of ${order.length}`;
+  const good=Object.values(graded).filter(v=>v==='good').length;
+  const bad=Object.values(graded).filter(v=>v==='bad').length;
+  goodCountEl.textContent=`✓ ${good}`; badCountEl.textContent=`↻ ${bad}`;
+  barGood.style.width=(good/order.length*100)+'%';
+  barBad.style.width=(bad/order.length*100)+'%';
+  meta.innerHTML=`Chapter ${deck.short} · ${deck.cards.length} cards<br>${good+bad} reviewed this session`;
+  prevBtn.disabled=pos===0; nextBtn.disabled=pos===order.length-1;
+  againBtn.disabled=!flipped; gotBtn.disabled=!flipped;
+}
+
+// ── GRADING ENGINE ──────────────────────────────────────
+// Stopwords we don't score on (too common to be meaningful).
+const STOP=new Set(("the a an of to in on at for and or but is are be been being as by with from into "+
+ "that this these those it its do does the their your you we they he she his her them then than so "+
+ "if not no yes can could would should will shall may might must each every both all any some most "+
+ "more less when where which who whom what why how only just also very much many up out off down "+
+ "over under per via e g eg ie etc using used use uses make makes made get gets got go goes "+
+ "one two three four five first last next via about between within across toward towards same "+
+ "other another such only own here there now i'll you'll they're it's there's").split(/\s+/));
+
+// strip HTML tags + entities from the model answer to get plain text
+function stripHTML(html){
+  const d=document.createElement('div'); d.innerHTML=html;
+  let t=d.textContent||d.innerText||'';
+  return t.replace(/\u00a0/g,' ');
+}
+// normalise a token: lowercase, drop punctuation, keep digits & letters
+function norm(w){ return w.toLowerCase().replace(/[^a-z0-9./+-]/g,''); }
+
+// Shared tokeniser: split on whitespace + most punctuation, but DO NOT break a
+// decimal/version like 9.6, 2.4, 802.11, 192.168 (digit . digit stays joined).
+function tokenize(text){
+  return text
+    .replace(/(\d)\.(\d)/g,'$1\u00b7$2')        // protect decimals (temp middot)
+    .split(/[\s,;:.()\u2014\u2013/]+/)
+    .map(t=>t.replace(/\u00b7/g,'.'))            // restore decimals
+    .map(norm)
+    .filter(Boolean);
+}
+
+// Levenshtein distance (for spelling tolerance)
+function lev(a,b){
+  const m=a.length,n=b.length;
+  if(!m) return n; if(!n) return m;
+  let prev=Array.from({length:n+1},(_,i)=>i), cur=new Array(n+1);
+  for(let i=1;i<=m;i++){
+    cur[0]=i;
+    for(let j=1;j<=n;j++){
+      const cost=a[i-1]===b[j-1]?0:1;
+      cur[j]=Math.min(prev[j]+1, cur[j-1]+1, prev[j-1]+cost);
+    }
+    [prev,cur]=[cur,prev];
+  }
+  return prev[n];
+}
+// is user token a fuzzy match for a key token? (tolerate typos proportional to length)
+function fuzzyEq(u,k){
+  if(u===k) return true;
+  if(k.length>=4 && (u.includes(k)||k.includes(u))) return true; // stem / substring
+  const tol = k.length<=4?1 : k.length<=7?2 : 3;
+  return lev(u,k)<=tol;
+}
+
+// Extract key terms from model answer.
+// PRIMARY terms = emphasised spans (<strong>/<code>/<em>) — these are what we grade on.
+// If the answer has NO emphasis at all, fall back to meaningful plain words.
+// Returns array of {display, tokens:[normed words]}.
+function extractKeywords(answerHTML){
+  const primary=[]; const seen=new Set();
+  const add=(arr,raw)=>{
+    const disp=raw.trim().replace(/\s+/g,' ');
+    if(!disp) return;
+    const toks=tokenize(disp).filter(w=>w.length>1 && !STOP.has(w));
+    if(!toks.length) return;
+    const key=toks.join(' ');
+    if(seen.has(key)) return; seen.add(key);
+    arr.push({display:disp.replace(/[.,;:]+$/,''), tokens:toks});
+  };
+  const re=/<(?:strong|code|em)>(.*?)<\/(?:strong|code|em)>/gis;
+  let m;
+  while((m=re.exec(answerHTML))){ add(primary, stripHTML(m[1])); }
+
+  if(primary.length>=2){
+    return primary.slice(0,12);   // grade on the highlighted essentials only
+  }
+  // fallback: no/low emphasis — harvest meaningful plain words
+  const plain=stripHTML(answerHTML);
+  const fb=[...primary];
+  tokenize(plain).forEach(n=>{
+    if(n.length>3 && !STOP.has(n) && !/^\d+$/.test(n)) add(fb,n);
+  });
+  return fb.slice(0,10);
+}
+
+function gradeAnswer(userText, answerHTML){
+  const user = userText.trim();
+  const keys = extractKeywords(answerHTML);
+  if(!keys.length) return {pct:0, hits:[], misses:[], blank:!user};
+  if(!user) return {pct:0, hits:[], misses:keys, blank:true};
+  const userToks = tokenize(user);
+  const hits=[], misses=[];
+  keys.forEach(term=>{
+    let ok;
+    if(term.tokens.length===1){
+      ok = userToks.some(ut => fuzzyEq(ut, term.tokens[0]));
+    } else {
+      // multi-word term: count as hit if MOST of its tokens are present
+      const matched = term.tokens.filter(kt => userToks.some(ut => fuzzyEq(ut, kt))).length;
+      ok = matched >= Math.ceil(term.tokens.length * 0.6);
+    }
+    (ok?hits:misses).push(term);
+  });
+  const pct = Math.round(hits.length / keys.length * 100);
+  return {pct, hits, misses, blank:false};
+}
+
+function renderTypeBack(){
+  const ya=document.getElementById('yourAns'); if(!ya) return;
+  const userText = (answers[order[pos]]||'');
+  const t = userText.trim();
+  if(t){ ya.textContent=t; ya.classList.remove('empty'); }
+  else { ya.textContent='(left blank)'; ya.classList.add('empty'); }
+
+  const c = DECKS[currentDeck].cards[order[pos]];
+  const g = gradeAnswer(userText, c.a);
+
+  // verdict banner
+  const v=document.getElementById('verdict');
+  let cls,title,sub,icon;
+  const tick=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>`;
+  const half=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 0 1 0 20Z"/><circle cx="12" cy="12" r="10"/></svg>`;
+  const cross=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>`;
+  const dash=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>`;
+  if(g.blank){ cls='blank'; title='Left blank'; sub='Reveal the answer and try the next one'; icon=dash; }
+  else if(g.pct>=70){ cls='correct'; title='Correct'; sub=`You hit ${g.hits.length} of ${g.hits.length+g.misses.length} key points`; icon=tick; }
+  else if(g.pct>=35){ cls='partial'; title='Partially correct'; sub=`${g.pct}% — you got ${g.hits.length} of ${g.hits.length+g.misses.length} key points`; icon=half; }
+  else { cls='low'; title='Keep practising'; sub=`${g.pct}% — ${g.hits.length} of ${g.hits.length+g.misses.length} key points matched`; icon=cross; }
+  v.className='verdict '+cls;
+  v.innerHTML=`<div class="v-icon">${icon}</div><div class="v-body"><div class="v-title">${title}</div><div class="v-sub">${sub}</div></div>`;
+
+  // keyword chips
+  const kw=document.getElementById('keywords');
+  if(g.blank || (!g.hits.length && !g.misses.length)){ kw.innerHTML=''; }
+  else {
+    const chip=(term,hit)=>`<span class="kw ${hit?'hit':'miss'}">${hit?tick:cross}${term.display}</span>`;
+    kw.innerHTML = `<div class="kw-head">Key points · <span style="color:#a8d69c">green = you mentioned it</span> · <span style="color:#e3a99e">red = missed</span></div>`+
+      `<div class="kw-list">${g.hits.map(t=>chip(t,true)).join('')}${g.misses.map(t=>chip(t,false)).join('')}</div>`;
+  }
+}
+
+function bindCard(){
+  const card=document.getElementById('card');
+  card.onclick=(e)=>{
+    if(mode==='type') return;            // typing mode flips only via Check button
+    if(dragging) return;
+    flip();
+  };
+  // swipe
+  let sx=0,sy=0,dx=0,active=false;
+  card.addEventListener('touchstart',e=>{ if(e.target.tagName==='TEXTAREA'){active=false;return;} sx=e.touches[0].clientX;sy=e.touches[0].clientY;dx=0;active=true;dragging=false;},{passive:true});
+  card.addEventListener('touchmove',e=>{
+    if(!active)return;
+    dx=e.touches[0].clientX-sx;
+    const dyAbs=Math.abs(e.touches[0].clientY-sy);
+    if(Math.abs(dx)>10&&Math.abs(dx)>dyAbs){dragging=true;}
+  },{passive:true});
+  card.addEventListener('touchend',()=>{
+    if(!active)return; active=false;
+    if(dragging&&Math.abs(dx)>60){
+      if(dx<0&&pos<order.length-1){ animateNext(); }
+      else if(dx>0&&pos>0){ animatePrev(); }
+    }
+    setTimeout(()=>dragging=false,50);
+  });
+}
+let dragging=false;
+
+function animateNext(){
+  const card=document.getElementById('card');
+  card.classList.add('swipe-l');
+  setTimeout(()=>{pos++;flipped=false;render();},240);
+}
+function animatePrev(){
+  const card=document.getElementById('card');
+  card.classList.add('swipe-r');
+  setTimeout(()=>{pos--;flipped=false;render();},240);
+}
+
+function flip(){ flipped=!flipped; render(); }
+function next(){ if(pos<order.length-1){pos++;flipped=false;render();} else checkDone(); }
+function prev(){ if(pos>0){pos--;flipped=false;render();} }
+function grade(v){
+  if(!flipped)return;
+  graded[order[pos]]=v;
+  if(pos<order.length-1){pos++;flipped=false;render();}
+  else {render();setTimeout(checkDone,250);}
+}
+function checkDone(){ if(Object.keys(graded).length===order.length) showDone(); }
+
+function showDone(){
+  const good=Object.values(graded).filter(v=>v==='good').length;
+  const bad=Object.values(graded).filter(v=>v==='bad').length;
+  const pct=Math.round(good/order.length*100);
+  stage.innerHTML=`<div class="done">
+    <h2>Deck complete</h2>
+    <p>Chapter ${DECKS[currentDeck].short} · ${DECKS[currentDeck].title}</p>
+    <div class="stats-big">
+      <div class="stat g"><div class="n">${good}</div><div class="l">Got it</div></div>
+      <div class="stat b"><div class="n">${bad}</div><div class="l">To review</div></div>
+      <div class="stat"><div class="n">${pct}%</div><div class="l">Score</div></div>
+    </div>
+    <div class="done-btns">
+      <button class="nav-btn" id="restartBtn">Restart deck</button>
+      <button class="nav-btn" id="reviewBadBtn" ${bad===0?'disabled':''}>Review missed only</button>
+    </div></div>`;
+  document.getElementById('restartBtn').onclick=()=>{ graded={};gradedAll[currentDeck]=graded;answers={};answersAll[currentDeck]=answers;order=DECKS[currentDeck].cards.map((_,k)=>k);pos=0;flipped=false;render(); };
+  document.getElementById('reviewBadBtn').onclick=()=>{ const m=Object.entries(graded).filter(([k,v])=>v==='bad').map(([k])=>+k);graded={};gradedAll[currentDeck]=graded;order=m;pos=0;flipped=false;render(); };
+  prevBtn.disabled=true;nextBtn.disabled=true;againBtn.disabled=true;gotBtn.disabled=true;
+}
+
+function shuffle(){
+  for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[order[i],order[j]]=[order[j],order[i]];}
+  pos=0;flipped=false;graded={};gradedAll[currentDeck]=graded;answers={};answersAll[currentDeck]=answers;render();
+}
+function reset(){ order=DECKS[currentDeck].cards.map((_,k)=>k);pos=0;flipped=false;graded={};gradedAll[currentDeck]=graded;answers={};answersAll[currentDeck]=answers;render(); }
+
+prevBtn.onclick=prev; nextBtn.onclick=next;
+againBtn.onclick=()=>grade('bad'); gotBtn.onclick=()=>grade('good');
+shuffleBtn.onclick=shuffle; resetBtn.onclick=reset;
+
+const modeToggle=document.getElementById('modeToggle');
+modeToggle.querySelectorAll('button').forEach(b=>{
+  b.onclick=()=>{
+    mode=b.dataset.mode;
+    modeToggle.querySelectorAll('button').forEach(x=>x.classList.toggle('active',x===b));
+    flipped=false; render();
+  };
+});
+
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;
+  if(e.code==='Space'){e.preventDefault();flip();}
+  else if(e.code==='ArrowRight')next();
+  else if(e.code==='ArrowLeft')prev();
+  else if(e.key==='1')grade('bad');
+  else if(e.key==='2')grade('good');
+  else if(e.key.toLowerCase()==='s')shuffle();
+  else if(e.key.toLowerCase()==='r')reset();
+});
+
+bindCard();
+selectDeck(0);
+</script>
+</body>
+</html>
